@@ -1,0 +1,516 @@
+#!/usr/bin/python
+# -*- coding: utf-8
+
+# Изменения 21 марта 2016 г Суббота
+# Проверил что проставляется страница услуги
+
+import MySQLdb
+import string
+import datetime
+import time 
+import sys
+from selenium import webdriver
+from selenium.webdriver.common.keys import Keys
+print 'v-1'
+for param in sys.argv:
+    print (param)
+
+
+# Дата растановки в файле
+
+dateinfile = '2016-05-21'
+
+# Расчет отчета для Админки
+
+Nomer       = 0;
+NomerNowork = 0;
+NomerNoFind = 0;
+FtpNomer    = 0;
+FtpNoWork   = 0;
+FtpNoFind   = 0;
+
+S1cNomer    = 0;
+S1cNoWork   = 0;
+S1cNoFind   = 0;
+
+HTMLNomer    = 0;
+HTMLNoWork   = 0;
+HTMLNoFind   = 0;
+
+
+db = MySQLdb.connect(host="localhost", user="izofen", passwd="podkjf4", db="rusnet",charset='cp1251')
+db.set_character_set('utf8')
+cursor = db.cursor()
+sql = "SELECT namerus,titlerus,id,p21,ip_p21,p80,ip_p80,p1450,ip_p1450 FROM site WHERE (1=1)  "
+cursor.execute(sql)
+data =  cursor.fetchall()
+
+for rec in data:
+    name,title,id,p21,ip_p21,p80,ip_p80,p1450,ip_p1450 = rec
+    name = str(name)
+    id   = str(id)
+    Nomer = Nomer +1
+    if title.encode('utf8') == 'не обработано':
+        NomerNowork = NomerNowork +1; 
+
+
+    if title.encode('utf8') == 'сайт не найден':
+        NomerNoFind = NomerNoFind +1;
+
+
+
+    if p21 <> '':
+        FtpNomer = FtpNomer +1;
+
+    if ip_p21 <> '':
+        FtpNoWork = FtpNoWork +1;
+
+    if p21 == '':
+        FtpNoFind   = FtpNoFind +1;
+
+
+
+    if p1450 <> '':
+        S1cNomer = S1cNomer +1;
+
+    if ip_p1450 <> '':
+        S1cNoWork = S1cNoWork +1;
+
+    if p1450 == '':
+        S1cNoFind   = S1cNoFind +1;
+
+
+
+    if p80 <> '':
+        HTMLNomer = HTMLNomer +1;
+
+    if ip_p80 <> '':
+        HTMLNoWork = HTMLNoWork +1;
+
+    if p80 == '':
+        HTMLNoFind   = HTMLNoFind +1;
+
+
+
+
+print ("All record in DB (",Nomer,")")
+print ("All noWork in DB (",NomerNowork,")")
+print ("All noFind in DB (",NomerNoFind,")")
+
+print ("All Work in FTP (",FtpNomer,")")
+print ("All find in FTP (",FtpNoWork,")")
+print ("All no Work in FTP (",FtpNoFind,")")
+
+
+print ("All Work in HTML (",HTMLNomer,")")
+print ("All find in HTML (",HTMLNoWork,")")
+print ("All no Work in HTML (",HTMLNoFind,")")
+
+
+
+db = MySQLdb.connect(host="localhost", user="izofen", passwd="podkjf4", db="mailvirtual",charset='cp1251')
+db.set_character_set('utf8')
+cursor = db.cursor()
+my_time = str(datetime.datetime.now())
+
+tip     = 'Всего записей';
+sql = "INSERT INTO otchet (`tip`,`rez`,`datazap`) VALUES ('"+tip+"','"+str(Nomer)+"','"+my_time+"')"
+print sql
+cursor.execute(sql)
+db.commit() 
+
+
+tip     = 'Сайтов не найдено';
+sql = "INSERT INTO otchet (`tip`,`rez`,`datazap`) VALUES ('"+tip+"','"+str(NomerNoFind)+"','"+my_time+"')"
+print sql
+cursor.execute(sql)
+db.commit() 
+
+
+tip     = 'Не обработано записей';
+sql = "INSERT INTO otchet (`tip`,`rez`,`datazap`) VALUES ('"+tip+"','"+str(NomerNowork)+"','"+my_time+"')"
+print sql
+cursor.execute(sql)
+db.commit() 
+
+tip     = 'Сайтов найдено в инете';
+rezot = Nomer - NomerNowork
+sql = "INSERT INTO otchet (`tip`,`rez`,`datazap`) VALUES ('"+tip+"','"+str(rezot)+"','"+my_time+"')"
+print sql
+cursor.execute(sql)
+db.commit() 
+
+
+tip     = 'FTP обработано';
+sql = "INSERT INTO otchet (`tip`,`rez`,`datazap`) VALUES ('"+tip+"','"+str(FtpNomer)+"','"+my_time+"')"
+print sql
+cursor.execute(sql)
+db.commit() 
+
+
+tip     = 'FTP найдено в инете';
+sql = "INSERT INTO otchet (`tip`,`rez`,`datazap`) VALUES ('"+tip+"','"+str(FtpNoWork)+"','"+my_time+"')"
+print sql
+cursor.execute(sql)
+db.commit() 
+
+
+
+tip     = 'FTP не обработано';
+sql = "INSERT INTO otchet (`tip`,`rez`,`datazap`) VALUES ('"+tip+"','"+str(FtpNoFind)+"','"+my_time+"')"
+print sql
+cursor.execute(sql)
+db.commit() 
+
+
+tip     = '1C обработано';
+sql = "INSERT INTO otchet (`tip`,`rez`,`datazap`) VALUES ('"+tip+"','"+str(S1cNomer)+"','"+my_time+"')"
+print sql
+cursor.execute(sql)
+db.commit() 
+
+
+tip     = '1C найдено в инете';
+sql = "INSERT INTO otchet (`tip`,`rez`,`datazap`) VALUES ('"+tip+"','"+str(S1cNoWork)+"','"+my_time+"')"
+print sql
+cursor.execute(sql)
+db.commit() 
+
+
+
+tip     = '1C не обработано';
+sql = "INSERT INTO otchet (`tip`,`rez`,`datazap`) VALUES ('"+tip+"','"+str(S1cNoFind)+"','"+my_time+"')"
+print sql
+cursor.execute(sql)
+db.commit() 
+
+
+
+
+#--------------------------------------------------------------------------------------------------------
+
+tip     = 'HTML обработано';
+sql = "INSERT INTO otchet (`tip`,`rez`,`datazap`) VALUES ('"+tip+"','"+str(HTMLNomer)+"','"+my_time+"')"
+print sql
+cursor.execute(sql)
+db.commit() 
+
+
+tip     = 'HTML найдено в инете';
+sql = "INSERT INTO otchet (`tip`,`rez`,`datazap`) VALUES ('"+tip+"','"+str(HTMLNoWork)+"','"+my_time+"')"
+print sql
+cursor.execute(sql)
+db.commit() 
+
+
+
+tip     = 'HTML не обработано';
+sql = "INSERT INTO otchet (`tip`,`rez`,`datazap`) VALUES ('"+tip+"','"+str(HTMLNoFind)+"','"+my_time+"')"
+print sql
+cursor.execute(sql)
+db.commit() 
+
+
+
+
+# подсчет уникальных записей по FTP
+
+
+db = MySQLdb.connect(host="localhost", user="izofen", passwd="podkjf4", db="rusnet",charset='cp1251')
+db.set_character_set('utf8')
+cursor = db.cursor()
+
+nomerunikFTP = 0
+sql = "SELECT DISTINCT ip_p21 FROM `site` WHERE (`p21` like '%open%') ORDER BY ID"
+cursor.execute(sql)
+data =  cursor.fetchall()
+for rec in data:
+    nomerunikFTP = nomerunikFTP + 1
+
+
+db = MySQLdb.connect(host="localhost", user="izofen", passwd="podkjf4", db="mailvirtual",charset='cp1251')
+db.set_character_set('utf8')
+cursor = db.cursor()
+
+tip     = 'Уникальных FTP';
+rezot = Nomer - NomerNoFind
+sql = "INSERT INTO otchet (`tip`,`rez`,`datazap`) VALUES ('"+tip+"','"+str(nomerunikFTP)+"','"+my_time+"')"
+print sql
+cursor.execute(sql)
+db.commit()
+
+# подсчет уникальных записей по 1C Сервер
+
+
+db = MySQLdb.connect(host="localhost", user="izofen", passwd="podkjf4", db="rusnet",charset='cp1251')
+db.set_character_set('utf8')
+cursor = db.cursor()
+
+nomerunikS1c = 0
+sql = "SELECT DISTINCT ip_p1450 FROM `site` WHERE (`p1450` like '%open%') ORDER BY ID"
+cursor.execute(sql)
+data =  cursor.fetchall()
+for rec in data:
+    nomerunikS1c = nomerunikS1c + 1
+
+
+db = MySQLdb.connect(host="localhost", user="izofen", passwd="podkjf4", db="mailvirtual",charset='cp1251')
+db.set_character_set('utf8')
+cursor = db.cursor()
+
+tip     = 'Уникальных 1C';
+rezot = Nomer - NomerNoFind
+sql = "INSERT INTO otchet (`tip`,`rez`,`datazap`) VALUES ('"+tip+"','"+str(nomerunikS1c)+"','"+my_time+"')"
+print sql
+cursor.execute(sql)
+db.commit()
+
+
+
+
+
+
+
+
+f = open('sitemap.xml','w');
+
+
+    #always
+    #hourly
+    #daily
+    #weekly
+    #monthly
+    #yearly
+    #never
+
+# Создаем карту сайта
+
+f.write('<?xml version="1.0" encoding="UTF-8"?>'+ '\n');
+f.write('<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">'+ '\n');
+f.write('<url>'+ '\n');
+f.write('      <loc>http://www.mailvirtual.ru/</loc>'+ '\n');
+f.write('      <lastmod>'+dateinfile+'</lastmod>'+ '\n');
+f.write('      <changefreq>monthly</changefreq>'+ '\n');
+f.write('      <priority>1.0</priority>'+ '\n');
+f.write('   </url>'+ '\n');
+
+
+f.write('<url>'+ '\n');
+f.write('      <loc>http://mailvirtual.ru/email.php/</loc>'+ '\n');
+f.write('      <lastmod>'+dateinfile+'</lastmod>'+ '\n');
+f.write('      <changefreq>daily</changefreq>'+ '\n');
+f.write('      <priority>1.0</priority>'+ '\n');
+f.write('   </url>'+ '\n');
+
+
+
+
+f.write('<url>'+ '\n');
+f.write('      <loc>http://www.mailvirtual.ru/yrist2.php/</loc>'+ '\n');
+f.write('      <lastmod>'+dateinfile+'</lastmod>'+ '\n');
+f.write('      <changefreq>daily</changefreq>'+ '\n');
+f.write('      <priority>1.0</priority>'+ '\n');
+f.write('   </url>'+ '\n');
+
+
+
+f.write('<url>'+ '\n');
+f.write('      <loc>http://www.mailvirtual.ru/buh.php/</loc>'+ '\n');
+f.write('      <lastmod>'+dateinfile+'</lastmod>'+ '\n');
+f.write('      <changefreq>daily</changefreq>'+ '\n');
+f.write('      <priority>1.0</priority>'+ '\n');
+f.write('   </url>'+ '\n');
+
+
+
+
+
+f.write('<url>'+ '\n');
+f.write('      <loc>http://mailvirtual.ru/later.php/</loc>'+ '\n');
+f.write('      <lastmod>'+dateinfile+'</lastmod>'+ '\n');
+f.write('      <changefreq>daily</changefreq>'+ '\n');
+f.write('      <priority>1.0</priority>'+ '\n');
+f.write('   </url>'+ '\n');
+
+
+
+
+
+
+
+
+f.write('<url>'+ '\n');
+f.write('      <loc>http://mailvirtual.ru/foto.php/</loc>'+ '\n');
+f.write('      <lastmod>'+dateinfile+'</lastmod>'+ '\n');
+f.write('      <changefreq>daily</changefreq>'+ '\n');
+f.write('      <priority>1.0</priority>'+ '\n');
+f.write('   </url>'+ '\n');
+
+
+
+
+
+f.write('<url>'+ '\n');
+f.write('      <loc>http://mailvirtual.ru/obyavlen.php/</loc>'+ '\n');
+f.write('      <lastmod>'+dateinfile+'</lastmod>'+ '\n');
+f.write('      <changefreq>daily</changefreq>'+ '\n');
+f.write('      <priority>1.0</priority>'+ '\n');
+f.write('   </url>'+ '\n');
+
+
+
+f.write('<url>'+ '\n');
+f.write('      <loc>http://mailvirtual.ru/ofirm.php/</loc>'+ '\n');
+f.write('      <lastmod>'+dateinfile+'</lastmod>'+ '\n');
+f.write('      <changefreq>daily</changefreq>'+ '\n');
+f.write('      <priority>1.0</priority>'+ '\n');
+f.write('   </url>'+ '\n');
+
+
+
+
+f.write('<url>'+ '\n');
+f.write('      <loc>http://mailvirtual.ru/karta.php</loc>'+ '\n');
+f.write('      <lastmod>'+dateinfile+'</lastmod>'+ '\n');
+f.write('      <changefreq>daily</changefreq>'+ '\n');
+f.write('      <priority>1.0</priority>'+ '\n');
+f.write('   </url>'+ '\n');
+
+
+
+
+f.write('<url>'+ '\n');
+f.write('      <loc>http://mailvirtual.ru/kontakt.php/</loc>'+ '\n');
+f.write('      <lastmod>'+dateinfile+'</lastmod>'+ '\n');
+f.write('      <changefreq>daily</changefreq>'+ '\n');
+f.write('      <priority>1.0</priority>'+ '\n');
+f.write('   </url>'+ '\n');
+
+
+
+f.write('<url>'+ '\n');
+f.write('      <loc>http://mailvirtual.ru/utilit.php/</loc>'+ '\n');
+f.write('      <lastmod>'+dateinfile+'</lastmod>'+ '\n');
+f.write('      <changefreq>daily</changefreq>'+ '\n');
+f.write('      <priority>1.0</priority>'+ '\n');
+f.write('   </url>'+ '\n');
+
+
+f.write('<url>'+ '\n');
+f.write('      <loc>http://mailvirtual.ru/listprim.php/</loc>'+ '\n');
+f.write('      <lastmod>'+dateinfile+'</lastmod>'+ '\n');
+f.write('      <changefreq>daily</changefreq>'+ '\n');
+f.write('      <priority>1.0</priority>'+ '\n');
+f.write('   </url>'+ '\n');
+
+
+
+
+f.write('<url>'+ '\n');
+f.write('      <loc>http://www.mailvirtual.ru/listsite.php/</loc>'+ '\n');
+f.write('      <lastmod>'+dateinfile+'</lastmod>'+ '\n');
+f.write('      <changefreq>daily</changefreq>'+ '\n');
+f.write('      <priority>1.0</priority>'+ '\n');
+f.write('   </url>'+ '\n');
+
+
+
+
+               
+
+f.write('<url>'+ '\n');
+f.write('      <loc>http://mailvirtual.ru/programm.php/</loc>'+ '\n');
+f.write('      <lastmod>'+dateinfile+'</lastmod>'+ '\n');
+f.write('      <changefreq>daily</changefreq>'+ '\n');
+f.write('      <priority>1.0</priority>'+ '\n');
+f.write('   </url>'+ '\n');
+
+
+
+f.write('<url>'+ '\n');
+f.write('      <loc>http://www.mailvirtual.ru/yellopage.php/</loc>'+ '\n');
+f.write('      <lastmod>'+dateinfile+'</lastmod>'+ '\n');
+f.write('      <changefreq>daily</changefreq>'+ '\n');
+f.write('      <priority>1.0</priority>'+ '\n');
+f.write('   </url>'+ '\n');
+
+
+
+# Страницы пользователей
+db = MySQLdb.connect(host="localhost", user="izofen", passwd="podkjf4", db="mailvirtual",charset='cp1251')
+db.set_character_set('utf8')
+cursor = db.cursor()
+sql   = "SELECT id,prof FROM user WHERE (1=1 ) "
+cursor.execute(sql)
+data =  cursor.fetchall()
+for rec in data:
+    id,prof = rec
+    id = str(id)
+    f.write('<url>'+ '\n');
+    f.write('      <loc>http://mailvirtual.ru/bloknew.php?idnew='+id+' /</loc>'+ '\n');
+    f.write('      <lastmod>2016-04-27</lastmod>'+ '\n');
+    f.write('      <changefreq>daily</changefreq>'+ '\n');
+    f.write('      <priority>1.0</priority>'+ '\n');
+    f.write('   </url>'+ '\n');
+   
+    
+
+
+# Страницы с блогами 
+db = MySQLdb.connect(host="localhost", user="izofen", passwd="podkjf4", db="mailvirtual",charset='cp1251')
+db.set_character_set('utf8')
+cursor = db.cursor()
+sql   = "SELECT id,title FROM blogi WHERE (1=1 ) "
+cursor.execute(sql)
+data =  cursor.fetchall()
+for rec in data:
+    id,title = rec
+    id = str(id)
+    f.write('<url>'+ '\n');
+    f.write('      <loc>http://www.mailvirtual.ru/bloknew.php?idnew='+id+' /</loc>'+ '\n');
+    f.write('      <lastmod>2016-04-27</lastmod>'+ '\n');
+    f.write('      <changefreq>daily</changefreq>'+ '\n');
+    f.write('      <priority>1.0</priority>'+ '\n');
+    f.write('   </url>'+ '\n');
+   
+
+
+# Страницы с шаблонами документов 
+db = MySQLdb.connect(host="localhost", user="izofen", passwd="podkjf4", db="mailvirtual",charset='cp1251')
+db.set_character_set('utf8')
+cursor = db.cursor()
+sql   = "SELECT DISTINCT (tipdoc) FROM yrdocall WHERE (1=1 ) "
+cursor.execute(sql)
+data =  cursor.fetchall()
+for rec in data:
+    tipdoc = rec
+    tipdoc = str(tipdoc)
+    tipdoc = tipdoc[3:] 
+    tipdocDL = len(tipdoc)
+    tipdoc   = tipdoc[0:tipdocDL-3]
+
+
+    f.write('<url>'+ '\n');
+    f.write('      <loc>http://www.mailvirtual.ru/yrist2.php?m='+tipdoc+' /</loc>'+ '\n');
+    f.write('      <lastmod>2016-04-27</lastmod>'+ '\n');
+    f.write('      <changefreq>daily</changefreq>'+ '\n');
+    f.write('      <priority>1.0</priority>'+ '\n');
+    f.write('   </url>'+ '\n');
+   
+
+
+f.write('</urlset>'+ '\n');
+
+    
+
+
+
+
+
+
+
+
+
+
+
+
