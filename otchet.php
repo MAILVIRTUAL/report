@@ -394,6 +394,24 @@
 			
 				while ($row=mysql_fetch_array($res)) 
   				{
+  					
+  					
+                                	if ($row[tip] == 'Титле 2 необработано') 
+					{
+                                		$TitleClear = $row[rez];
+					}
+                                	if ($row[tip] == 'Титле 2 обработано') 
+					{
+                                		$TitleFull = $row[rez];
+					}
+                                	if ($row[tip] == 'Титле 2 не найдено') 
+					{
+                                		$TitleNoFind = $row[rez];
+					}
+  					
+  					
+  					
+  					
                                 	if ($row[tip] == 'Всего записей') 
 					{
                                 		$allrecord = $row[rez];
@@ -505,6 +523,47 @@
                                         <td><?php echo (number_format($allrecord)) ?> </td>
                                         <td><span class="label label-sm label-success">Approved</span></td>
                                     </tr>
+                                    
+                                    
+                                    
+                    			 
+					 
+				   
+				     
+				   
+	 
+					                
+                                    
+                                    
+                                    
+                                    <tr>
+                                        <td>2</td>
+                                        <td>Титле 2 необработано</td>
+                                        <td><?php echo (number_format($TitleClear)) ?></td>
+                                        <td><span class="label label-sm label-info">Pending</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td>3</td>
+                                        <td>Титле 2 обработано</td>
+                                        <td><?php echo (number_format($TitleFull)) ?></td>
+                                        <td><span class="label label-sm label-warning">Suspended</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td>4</td>
+                                        <td>Титле 2 не найдено</td>
+                                        <td><?php echo (number_format($TitleNoFind)).' (+'.number_format($rezfindrecord).')' ?>  </td>
+                                        <td><span class="label label-sm label-danger">Blocked</span></td>
+                                    </tr>
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
                                     <tr>
                                         <td>2</td>
                                         <td>Не найдено сайтов</td>
