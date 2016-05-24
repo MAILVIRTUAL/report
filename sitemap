@@ -38,6 +38,11 @@ HTMLNoWork   = 0;
 HTMLNoFind   = 0;
 
 
+TitleClear    = 0;
+TitleFull     = 0;
+TitleNoFind   = 0;
+
+
 db = MySQLdb.connect(host="localhost", user="izofen", passwd="podkjf4", db="rusnet",charset='cp1251')
 db.set_character_set('utf8')
 cursor = db.cursor()
@@ -50,6 +55,18 @@ for rec in data:
     name = str(name)
     id   = str(id)
     Nomer = Nomer +1
+    
+    
+    if titlecopy.encode('utf8') == '':
+        TitleClear  = TitleClear = 0; +1; 
+    if titlecopy.encode('utf8') <> '':
+        TitleFull = TitleFull +1; 
+    if titlecopy.encode('utf8') == 'сайт не найден':
+        TitleNoFind = TitleNoFind +1;     
+    
+    
+    
+    
     if title.encode('utf8') == 'не обработано':
         NomerNowork = NomerNowork +1; 
 
@@ -118,6 +135,37 @@ sql = "INSERT INTO otchet (`tip`,`rez`,`datazap`) VALUES ('"+tip+"','"+str(Nomer
 print sql
 cursor.execute(sql)
 db.commit() 
+
+
+
+TitleClear    = 0;
+TitleFull     = 0;
+TitleNoFind   = 0;
+
+
+
+tip     = 'Титле 2 необработано';
+sql = "INSERT INTO otchet (`tip`,`rez`,`datazap`) VALUES ('"+tip+"','"+str(TitleClear)+"','"+my_time+"')"
+print sql
+cursor.execute(sql)
+db.commit() 
+
+
+tip     = 'Титле 2 обработано';
+sql = "INSERT INTO otchet (`tip`,`rez`,`datazap`) VALUES ('"+tip+"','"+str(TitleFull)+"','"+my_time+"')"
+print sql
+cursor.execute(sql)
+db.commit() 
+
+tip     = 'Титле 2 не найдено';
+rezot = Nomer - NomerNowork
+sql = "INSERT INTO otchet (`tip`,`rez`,`datazap`) VALUES ('"+tip+"','"+str(TitleNoFind)+"','"+my_time+"')"
+print sql
+cursor.execute(sql)
+db.commit() 
+
+
+
 
 
 tip     = 'Сайтов не найдено';
