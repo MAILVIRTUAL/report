@@ -1,13 +1,6 @@
 <?php 
    // Стандартный набор для всех страниц
    include_once("mainstart.php");
-   
-   
-   
-   
-   //echo $rolereturn;
-   
-  
    $qvest   = $_GET ['qvest'];
    $tema   = $_GET  ['tema'];
    if (isset($_GET['qvest']))
@@ -130,7 +123,8 @@
   <script type="text/javascript" src="/ckeditor/ckeditor.js"></script>
 </head>
 <body>
-<?php include_once("analyticstracking.php") ?>
+
+<?php $protokol = 'Отчет'; include_once("analyticstracking.php") ?>
     <div>
         <!--BEGIN THEME SETTING-->
         <div id="theme-setting">
@@ -1115,10 +1109,10 @@
 
 
 
-			  					<?php 
+			  		<?php 
                                         // 4 блока в конце сайта 
                                         include_once("main4blok.php");
-					        ?> 
+					?> 
 
 
                    

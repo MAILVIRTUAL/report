@@ -1,12 +1,49 @@
-
 <?php 
-include_once("mainstart.php");
-?> 
+   session_start();
+   $idvopros   = $_GET ['idvopros'];
+   include_once("connect.php");
+   $userstable = "yrvopros";
+   mysql_select_db($dbName); 
+   $query = "SELECT * FROM $userstable WHERE id = '".$idvopros."'";
+   $res = mysql_query($query);  
+   while ($row=mysql_fetch_array($res)) 
+   {
+   	$title = $row[title];
+        $opis  = $row[opis];
+   }
 
+  // Стандартный набор для всех страниц
+   session_start();
+   $comand   = $_GET ['com'];
+   if ($comand == 'out')
+   {
+   $_SESSION['Login']   = "";
+   $_SESSION['Password']= "";
+   }  
+   include_once("connect.php");
+   $otvet = "";
+   $utoch = "";
+   $Obrashen = "";
+   // Вход с предудущий сесии
+   if ($_SESSION['Login'] <> '' and $_SESSION['Password'] <> '')
+   {  
+        $userstable = "user";
+        mysql_select_db($dbName); 
+        $query = "SELECT * FROM $userstable WHERE login = '".$_SESSION['Login']."' and pass = '".$_SESSION['Password']."'";
+        $res = mysql_query($query) ;  
+        while ($row=mysql_fetch_array($res)) 
+        {
+            $Obrashen = $row[FirstName]." ".$row[LastName];
+        }
+        //echo $Obrashen;
+    }
+  
+?> 
+   
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-    <title>404 Страница не найдена </title>
+    <title>Ответы юристов</title>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -29,7 +66,7 @@ include_once("mainstart.php");
     <link type="text/css" rel="stylesheet" href="styles/jquery.news-ticker.css">
 </head>
 <body>
-<?php $protokol = '404 страница'; include_once("analyticstracking.php") ?>
+<?php include_once("analyticstracking.php") ?>
     <div>
         <!--BEGIN THEME SETTING-->
         <div id="theme-setting">
@@ -55,16 +92,10 @@ include_once("mainstart.php");
                  <?php include_once("logoup.php") ?>
             <div class="topbar-main"><a id="menu-toggle" href="#" class="hidden-xs"><i class="fa fa-bars"></i></a>
                 
-
-
-                <form id="topbar-search" action="poisk.php" method="POST" class="hidden-sm hidden-xs">
-                    <div class="input-icon right text-white"><a href="poisk.php"><i class="fa fa-search"></i></a><input type="text" placeholder="Поиск..." class="form-control text-white"/></div>
+                <form id="topbar-search" action="" method="" class="hidden-sm hidden-xs">
+                    <div class="input-icon right text-white"><a href="#"><i class="fa fa-search"></i></a><input type="text" placeholder="Search here..." class="form-control text-white"/></div>
                 </form>
-
-
-
-
-                 <?php include_once("runstrok.php") ?>
+                <?php include_once("runstrok.php") ?>
                 <ul class="nav navbar navbar-top-links navbar-right mbn">
                     <li class="dropdown"><a data-hover="dropdown" href="#" class="dropdown-toggle"><i class="fa fa-bell fa-fw"></i><span class="badge badge-green">3</span></a>
                         
@@ -123,12 +154,10 @@ include_once("mainstart.php");
                     
                      <div class="clearfix"></div>
                     <?php include_once("sitebar2.php") ?>
+                    </i><span class="menu-title">Animations</span></a></li>
                 </ul>
             </div>
         </nav>
-          
-          
-          
           
           
             <div id="page-wrapper">
@@ -136,12 +165,12 @@ include_once("mainstart.php");
                 <div id="title-breadcrumb-option-demo" class="page-title-breadcrumb">
                     <div class="page-header pull-left">
                         <div class="page-title">
-                            404 Страница не найдена</div>
+                            Ответы юристов</div>
                     </div>
                     <ol class="breadcrumb page-breadcrumb pull-right">
-                        <li><i class="fa fa-home"></i>&nbsp;<a href="dashboard.html">Главная</a>&nbsp;&nbsp;<i class="fa fa-angle-right"></i>&nbsp;&nbsp;</li>
+                        <li><i class="fa fa-home"></i>&nbsp;<a href="dashboard.html">Home</a>&nbsp;&nbsp;<i class="fa fa-angle-right"></i>&nbsp;&nbsp;</li>
                         <li class="hidden"><a href="#">Pages</a>&nbsp;&nbsp;<i class="fa fa-angle-right"></i>&nbsp;&nbsp;</li>
-                        <li class="active">Ошибка страницы</li>
+                        <li class="active">Pages</li>
                     </ol>
                     <div class="clearfix">
                     </div>
@@ -151,62 +180,145 @@ include_once("mainstart.php");
                 <div class="page-content">
                     <div id="tab-general">
                         <div class="row mbl">
-                        
-              <div class="col-lg-6">
-              <div class="panel">  
-              <div class="panel-body"><h4 class="block-heading">Такой страницы нет</h4>
-              <div id="nestable" class="dd">                 
-              Если у Вас возникли вопросы, свяжитесь с нашей службой безопасности, отправив электронное сообщение по адресу kupinov@mail.ru Подробнее можно узнать из нашего официального блога.                              
-              </div>
-              </div>                        
-              </div>
-              </div>                        
-                          
-          
-                        
-                        
-                        
                             <div class="col-lg-12">
-                            
-                            
-      
-                            
                                 
                                             <div class="col-md-12">
                                                 <div id="area-chart-spline" style="width: 100%; height: 300px; display: none;">
                                                 </div>
                                             </div>
-                                <img src="/images/n404.jpg" alt="ошибка страницы">
+                                
+                            </div>
+
+                            <div class="col-lg-12">
+
+
+ <h4 class="box-heading">В данном разделе публикуются документы, регламентирующие правовые нормы в сфере использования программного обеспечения. </h4>
+
+<?php
+        $userstable = "yrdocall";
+        mysql_select_db($dbName); 
+        $query = "SELECT * FROM $userstable WHERE 1=1";
+        $res = mysql_query($query) ;  
+        while ($row=mysql_fetch_array($res)) 
+        {
+         
+echo '<a href="yrdok.php?id='.$row[id].'" class="list-group-item"><h4 class="list-group-item-heading">'.$row[titledoc].'</h4><p class="list-group-item-text">Кодексы РФ.</p></a>';
+	}
+?>
+
+
+
+</div>
+
+
+                             
+
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-12"><h2 class="mbxl">Ответы юристов.</h2>
+
+                                        <div class="row">
+
+
+<?php
+        $userstable = "yrotvet";
+        mysql_select_db($dbName); 
+        $query = "SELECT * FROM $userstable WHERE 1=1";
+        $res = mysql_query($query) ;  
+        while ($row=mysql_fetch_array($res)) 
+        {
+        $otvetur = $row[otvet];
+        $idklient= $row[idklient];
+
+        $userstable = "user";
+        mysql_select_db($dbName); 
+        $queryU = "SELECT * FROM $userstable WHERE 1=1";
+        $resU = mysql_query($queryU) ; 
+        //echo ($queryU); 
+        while ($rowU=mysql_fetch_array($resU)) 
+        {
+           $userU = $rowU[FirstName].' '.$rowU[LastName];
+	}
+
+?>
+
+
+
+                                            <div class="col-lg-3">
+                                                <div class="member-team"><img src="http://lorempixel.com/640/480/business/1/" class="img-responsive"/>
+<?php
+                                                    echo ('<h3>'.$userU);
+?>
+                                                        <small>CEO</small>
+                                                    </h3>
+<?php
+                                                    echo '<p>'.$otvetur.'</p>';
+
+?>
+                                                    <ul class="social-icons list-unstyled list-inline mbl mtl">
+                                                        <li><a href="#" data-hover="tooltip" data-original-title="facebook" class="facebook"><i class="fa fa-facebook"></i></a></li>
+                                                        <li><a href="#" data-hover="tooltip" data-original-title="google Plus" class="googleplus"><i class="fa fa-google-plus"></i></a></li>
+                                                        <li><a href="#" data-hover="tooltip" data-original-title="skype" class="skype"><i class="fa fa-skype"></i></a></li>
+                                                        <li><a href="#" data-hover="tooltip" data-original-title="twitter" class="twitter"><i class="fa fa-twitter"></i></a></li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+
+
+
+<?php
+ 	}
+?>
+
+<div class="col-md-2">
+                        <div class="box-placeholder">
+                            <button data-toggle="dropdown" data-value="rubberBand" class="btn btn-success btn-block">Закрыть вопрос</button>
+                        </div>
+                        <div class="box-placeholder">
+                            <button data-toggle="dropdown" data-value="rubberBand" class="btn btn-success btn-block">Удалить вопрос</button>
+                        </div>
+
+                    </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                            
+                                           
+                                            
+                                        </div>
+										<div class="common-modal modal fade" id="common-Modal1" tabindex="-1" role="dialog" aria-hidden="true">
+											<div class="modal-content">
+												<ul class="list-inline item-details">
+													<li><a href="http://themifycloud.com">Admin templates</a></li>
+													<li><a href="http://themescloud.org">Bootstrap themes</a></li>
+												</ul>
+											</div>
+										</div>
+                                    </div>
+                                </div>
+                            
+                            
+                            </div>
                             
                         </div>
-                        <BR>
-		                  	<BR> 
-                        <!--END TITLE & BREADCRUMB PAGE-->
-                <!--BEGIN CONTENT-->
-                       
-                          
-                                                  
-                        
-                         
-                        <BR>
-		                  	<BR> 
-
-
-					<?php 
-                                        // 4 блока в конце сайта 
-                                        include_once("main4blok.php");
-					?> 
-
-
-
-
                     </div>
                 </div>
                 <!--END CONTENT-->
                 <!--BEGIN FOOTER-->
                 <div id="footer">
                     <div class="copyright">
-                        <td align="center"> <a href="http://mailvirtual.ru">2014 © ООО ФИТА</a></div>
+                        <a href="http://themifycloud.com">2014 © KAdmin Responsive Multi-Purpose Template</a></div>
                 </div>
                 <!--END FOOTER-->
             </div>

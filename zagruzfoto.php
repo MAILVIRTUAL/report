@@ -1,12 +1,138 @@
-
 <?php 
-include_once("mainstart.php");
+   // Стандартный набор для всех страниц
+   session_start();
+   $comand   = $_GET ['com'];
+   if ($comand == 'out')
+   {
+ 	  $_SESSION['Login']   = "";
+	  $_SESSION['Password']= "";
+   }  
+   include_once("connect.php");
+
+   $comand   = $_GET ['com'];
+   if ($comand == '1')
+   {
+   $uploaddir = '/var/www/html/upload/';
+   //@mkdir("/var/www/html/upload/id", 0777);
+   $uploadfile = $uploaddir.basename($_FILES['uploadfile']['name']);
+   $uploadklient = $_FILES['uploadfile']['name'];
+   $comand   = $_GET ['com'];
+   if ($comand == 'out')
+   {
+   $_SESSION['Login']   = "";
+   $_SESSION['Password']= "";
+   }  
+   include_once("connect.php");
+   $otvet = "";
+   $utoch = "";
+   $Obrashen = "";
+   if ($_SESSION['Login'] <> '' and $_SESSION['Password'] <> '')
+   {  
+        $userstable = "user";
+        mysql_select_db($dbName); 
+        $query = "SELECT * FROM $userstable WHERE login = '".$_SESSION['Login']."' and pass = '".$_SESSION['Password']."'";
+        $res = mysql_query($query) ;  
+        while ($row=mysql_fetch_array($res)) 
+        {
+            $Obrashen = $row[FirstName]." ".$row[LastName];
+        }
+        //echo $Obrashen;
+    }
+  
+ 
+
+
+	//echo ('(1)');
+	//echo ($_FILES['uploadfile']['tmp_name']);
+	//echo ('(2)');
+	//echo ($uploadfile);
+	//echo ("(3)".$Obrashen);
+
+
+	$userstable = "user";
+	mysql_select_db($dbName) or die(mysql_error()); 
+	$query = "UPDATE user SET fotoklienta = '".$uploadklient."' WHERE login = '".$_SESSION['Login']."' and pass = '".$_SESSION['Password']."'";
+
+	//echo ($query);
+	$res = mysql_query($query); 
+
+
+
+	if (copy($_FILES['uploadfile']['tmp_name'], $uploadfile))
+	{
+	//echo "<h3>OK</h3>";
+	}
+	else 
+       { 
+        //echo "<h3>Error!</h3>"; exit; 
+       }
+
+	// Âûâîäèì èíôîðìàöèþ î çàãðóæåííîì ôàéëå:
+	//echo "<h3>Èíôîðìàöèÿ î çàãðóæåííîì íà ñåðâåð ôàéëå: </h3>";
+	//echo "<p><b>Îðèãèíàëüíîå èìÿ çàãðóæåííîãî ôàéëà: ".$_FILES['uploadfile']['name']."</b></p>";
+	//echo "<p><b>Mime-òèï çàãðóæåííîãî ôàéëà: ".$_FILES['uploadfile']['type']."</b></p>";
+	//echo "<p><b>Ðàçìåð çàãðóæåííîãî ôàéëà â áàéòàõ: ".$_FILES['uploadfile']['size']."</b></p>";
+	//echo "<p><b>Âðåìåííîå èìÿ ôàéëà: ".$_FILES['uploadfile']['tmp_name']."</b></p>";
+	}
+
+
+
+
+   $otvet = "";
+   $utoch = "";
+   $Obrashen = "";
+
+
+
+   // Вход с предудущий сесии
+   if ($_SESSION['Login'] <> '' and $_SESSION['Password'] <> '')
+   {  
+        $userstable = "user";
+        mysql_select_db($dbName); 
+        $query = "SELECT * FROM $userstable WHERE login = '".$_SESSION['Login']."' and pass = '".$_SESSION['Password']."'";
+        $res = mysql_query($query) ;  
+        while ($row=mysql_fetch_array($res)) 
+        {
+            $Obrashen = $row[FirstName]." ".$row[LastName];
+            $Pffotoklienta     = $row[fotoklienta];
+        }
+        //echo $Obrashen;
+    }
+
+//<!-- MailVirtual Analytics -->
+    
+    $protokol = 'Карта';
+
+
+    include_once("connect.php");
+    $userstable = "protokol";
+    mysql_select_db($dbName) or die(mysql_error()); 
+    $ip=$_SERVER['REMOTE_ADDR'];
+    if ($ip <> '79.140.23.35')
+    {
+    	$query = "INSERT INTO protokol (name,ip) VALUES ('".$protokol."','".$ip."')";
+    	$res = mysql_query($query);  
+    	if ($res == 'true')
+    	{
+      		//echo "Данные успешно обновлены.";
+      		$metkahorvop = "yes";
+    	}
+    	else
+    	{
+      		echo "Данные не обновлены!";
+    	}
+    }     
+
+        
+
+    //<!-- MailVirtual Analytics -->
+  
 ?> 
 
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-    <title>404 Страница не найдена </title>
+    <title>Карта сайта</title>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -27,9 +153,10 @@ include_once("mainstart.php");
     <link type="text/css" rel="stylesheet" href="styles/zabuto_calendar.min.css">
     <link type="text/css" rel="stylesheet" href="styles/pace.css">
     <link type="text/css" rel="stylesheet" href="styles/jquery.news-ticker.css">
+     <link type="text/css" rel="stylesheet" href="styles/nestable.css">
 </head>
 <body>
-<?php $protokol = '404 страница'; include_once("analyticstracking.php") ?>
+<?php include_once("analyticstracking.php") ?>
     <div>
         <!--BEGIN THEME SETTING-->
         <div id="theme-setting">
@@ -52,20 +179,14 @@ include_once("mainstart.php");
             <nav id="topbar" role="navigation" style="margin-bottom: 0;" data-step="3" class="navbar navbar-default navbar-static-top">
             <div class="navbar-header">
                 <button type="button" data-toggle="collapse" data-target=".sidebar-collapse" class="navbar-toggle"><span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button>
-                 <?php include_once("logoup.php") ?>
+                <?php include_once("logoup.php") ?>
             <div class="topbar-main"><a id="menu-toggle" href="#" class="hidden-xs"><i class="fa fa-bars"></i></a>
                 
-
-
-                <form id="topbar-search" action="poisk.php" method="POST" class="hidden-sm hidden-xs">
-                    <div class="input-icon right text-white"><a href="poisk.php"><i class="fa fa-search"></i></a><input type="text" placeholder="Поиск..." class="form-control text-white"/></div>
+                <form id="topbar-search" action="" method="" class="hidden-sm hidden-xs">
+                    <div class="input-icon right text-white"><a href="#"><i class="fa fa-search"></i></a><input type="text" placeholder="Search here..." class="form-control text-white"/></div>
                 </form>
-
-
-
-
-                 <?php include_once("runstrok.php") ?>
-                <ul class="nav navbar navbar-top-links navbar-right mbn">
+<?php include_once("runstrok.php") ?>
+              <ul class="nav navbar navbar-top-links navbar-right mbn">
                     <li class="dropdown"><a data-hover="dropdown" href="#" class="dropdown-toggle"><i class="fa fa-bell fa-fw"></i><span class="badge badge-green">3</span></a>
                         
                     </li>
@@ -128,20 +249,17 @@ include_once("mainstart.php");
         </nav>
           
           
-          
-          
-          
             <div id="page-wrapper">
                 <!--BEGIN TITLE & BREADCRUMB PAGE-->
                 <div id="title-breadcrumb-option-demo" class="page-title-breadcrumb">
                     <div class="page-header pull-left">
                         <div class="page-title">
-                            404 Страница не найдена</div>
+                            Карта сайта</div>
                     </div>
                     <ol class="breadcrumb page-breadcrumb pull-right">
-                        <li><i class="fa fa-home"></i>&nbsp;<a href="dashboard.html">Главная</a>&nbsp;&nbsp;<i class="fa fa-angle-right"></i>&nbsp;&nbsp;</li>
-                        <li class="hidden"><a href="#">Pages</a>&nbsp;&nbsp;<i class="fa fa-angle-right"></i>&nbsp;&nbsp;</li>
-                        <li class="active">Ошибка страницы</li>
+                        <li><i class="fa fa-home"></i>&nbsp;<a href="index.php">Главная</a>&nbsp;&nbsp;<i class="fa fa-angle-right"></i>&nbsp;&nbsp;</li>
+                        <li class="hidden"><a href="#">Работа с файлами</a>&nbsp;&nbsp;<i class="fa fa-angle-right"></i>&nbsp;&nbsp;</li>
+                        <li class="active">Работа с файлами</li>
                     </ol>
                     <div class="clearfix">
                     </div>
@@ -151,62 +269,97 @@ include_once("mainstart.php");
                 <div class="page-content">
                     <div id="tab-general">
                         <div class="row mbl">
-                        
-              <div class="col-lg-6">
-              <div class="panel">  
-              <div class="panel-body"><h4 class="block-heading">Такой страницы нет</h4>
-              <div id="nestable" class="dd">                 
-              Если у Вас возникли вопросы, свяжитесь с нашей службой безопасности, отправив электронное сообщение по адресу kupinov@mail.ru Подробнее можно узнать из нашего официального блога.                              
-              </div>
-              </div>                        
-              </div>
-              </div>                        
-                          
-          
-                        
-                        
-                        
                             <div class="col-lg-12">
-                            
-                            
-      
-                            
                                 
                                             <div class="col-md-12">
                                                 <div id="area-chart-spline" style="width: 100%; height: 300px; display: none;">
                                                 </div>
                                             </div>
-                                <img src="/images/n404.jpg" alt="ошибка страницы">
+                                
+                            </div>
+
+                            <div class="col-lg-12">
+                              
+                                    <div class="row">
+                    <div class="col-lg-6">
+                        <div class="panel">
+                            <div class="panel-body"><h4 class="block-heading">Фотография</h4>
+
+                                <div id="nestable" class="dd">
+
+
+				<?php 
+                          echo '<div class="text-center mbl"><img src="/upload/'.$Pffotoklienta.'" alt="" class="img-responsive"/></div>';
+                  ?>
+
+
+                                    
+				<form action=zagruzfoto.php?com=1 method=post enctype=multipart/form-data>
+				<input type=file name=uploadfile>
+				<input type=submit value=Загрузить></form>
+
+
+
+
+
+
+
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="panel">
+                            <div class="panel-body"><h4 class="block-heading">Файлы</h4>
+
+                                <div id="nestable3" class="dd">
+                                    <ol class="dd-list">
+                                    <?php 
+                                        	include_once("connect.php");
+				                                  $userstable = "fileuser";
+  				                                mysql_select_db($dbName); 
+				                                  $nomer = 0;
+	  			                                $query = "SELECT * FROM $userstable WHERE 1=1";
+				                                  $res = mysql_query($query) ;  
+				                                  while ($row=mysql_fetch_array($res)) 
+  				                                {
+				 
+                                        echo '<li data-id="13" class="dd-item dd3-item">';
+                                            echo '<div class="dd-handle dd3-handle"></div>';
+                                            echo '<div class="dd3-content">'.$row[titlefile].'</div>';
+                                        echo '</li>';         
+
+				                                  }	
+                                     ?>      
+                                    
+                                        
+                                        
+                                                                            
+                                    </ol>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="panel">
                             
                         </div>
-                        <BR>
-		                  	<BR> 
-                        <!--END TITLE & BREADCRUMB PAGE-->
-                <!--BEGIN CONTENT-->
-                       
-                          
-                                                  
-                        
-                         
-                        <BR>
-		                  	<BR> 
-
-
-					<?php 
-                                        // 4 блока в конце сайта 
-                                        include_once("main4blok.php");
-					?> 
-
-
-
-
+                    </div>
+                </div>
+                              
+                              
+                                </div>
+                                
+                            
+                     
+                            
+                        </div>
                     </div>
                 </div>
                 <!--END CONTENT-->
                 <!--BEGIN FOOTER-->
                 <div id="footer">
                     <div class="copyright">
-                        <td align="center"> <a href="http://mailvirtual.ru">2014 © ООО ФИТА</a></div>
+                        <a href="http://themifycloud.com">2014 © KAdmin Responsive Multi-Purpose Template</a></div>
                 </div>
                 <!--END FOOTER-->
             </div>
@@ -239,6 +392,7 @@ include_once("mainstart.php");
     <script src="script/jquery.flot.stack.js"></script>
     <script src="script/jquery.flot.spline.js"></script>
     <script src="script/zabuto_calendar.min.js"></script>
+
     <script src="script/index.js"></script>
     <!--LOADING SCRIPTS FOR CHARTS-->
     <script src="script/highcharts.js"></script>
@@ -248,6 +402,9 @@ include_once("mainstart.php");
     <script src="script/highcharts-more.js"></script>
     <script src="script/charts-highchart-pie.js"></script>
     <script src="script/charts-highchart-more.js"></script>
+
+    <script src="script/jquery.nestable.js"></script>
+<script src="script/ui-nestable-list.js"></script>
     <!--CORE JAVASCRIPT-->
     <script src="script/main.js"></script>
     <script>        (function (i, s, o, g, r, a, m) {

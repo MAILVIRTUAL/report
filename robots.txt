@@ -1,0 +1,33 @@
+User-agent: Yandex
+Disallow: /edit.php
+Disallow: /Animation.html
+Disallow: /logo.php
+Disallow: /Forms.html
+Disallow: /Dropdown.html
+Disallow: /Pages.html
+Disallow: /Tables.html
+Disallow: /Layout.html
+Disallow: /Charts.html
+Disallow: /Extras.html
+Disallow: /regform.php
+Disallow: /Login.html
+
+
+
+Host: mailvirtual.ru
+
+User-agent: *
+Disallow: /edit.php
+Disallow: /Animation.html
+Disallow: /logo.php
+Disallow: /Forms.html
+Disallow: /Dropdown.html
+Disallow: /Pages.html
+Disallow: /Tables.html
+Disallow: /Layout.html
+Disallow: /Charts.html
+Disallow: /Extras.html
+Disallow: /regform.php
+Disallow: /Login.html
+
+

@@ -1,12 +1,85 @@
-
 <?php 
-include_once("mainstart.php");
+   // Стандартный набор для всех страниц
+   include_once("mainstart.php");
+   $qvest   = $_GET ['qvest'];
+   $tema   = $_GET  ['tema'];
+   if (isset($_GET['qvest']))
+   {
+
+     mysql_select_db($dbName) or die(mysql_error()); 
+     $query = "INSERT INTO yrvopros (title,opis) VALUES ('".$tema."','".$qvest."')";
+     $res = mysql_query($query);
+     //echo ($query);
+     if ($res == 'true')
+     {
+      //echo "Данные успешно обновлены.";
+      $metkahorvop = "yes";
+     }
+     else
+     {
+     //echo "Данные не обновлены!";
+     }     
+   }
+
+
+
+   $ftitle = $_SESSION['ftitle'];
+   $tipport = $_SESSION['tipport'];
+   
+   
+   
+   if ($ftitle == '')
+   {
+	 $ftitle = '%';
+   }
+   else
+   {
+   $ftitle = '%'.$ftitle.'%';
+   }
+
+
+
+
+   if (isset($_GET ['sim']))
+   {	
+   	$sim = $_GET ['sim'];
+   }
+   else
+   {
+   $sim     = "";
+   }
+
+   if (isset($_POST ['poisk']))
+   {	
+   	$poisk = $_POST ['poisk'];
+        $sim = $poisk;
+   }
+
+    
+
+
+
+   if (isset($_GET ['m']))
+   {	
+   	$m = $_GET ['m'];
+        $max = $m*100;
+        $min = $max - 100;
+   }
+   else
+   {
+   $m       = 1;  
+   $max     = 100;
+   $min	    = 0;
+   }
+   $otvet = "";
+   $utoch = "";
 ?> 
 
+
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="en">
 <head>
-    <title>404 Страница не найдена </title>
+    <title>Желтые страницы интернет</title>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -29,11 +102,11 @@ include_once("mainstart.php");
     <link type="text/css" rel="stylesheet" href="styles/jquery.news-ticker.css">
 </head>
 <body>
-<?php $protokol = '404 страница'; include_once("analyticstracking.php") ?>
+<?php $protokol = 'Желтые страницы'; include_once("analyticstracking.php") ?>
     <div>
         <!--BEGIN THEME SETTING-->
         <div id="theme-setting">
-            <a href="#" data-toggle="dropdown" data-step="1" data-intro="&lt;b&gt;Many styles&lt;/b&gt; and &lt;b&gt;colors&lt;/b&gt; be created for you. Let choose one and enjoy it!"
+           <a href="#" data-toggle="dropdown" data-step="1" data-intro="&lt;b&gt;Many styles&lt;/b&gt; and &lt;b&gt;colors&lt;/b&gt; be created for you. Let choose one and enjoy it!"
                 data-position="left" class="btn-theme-setting"><i class="fa fa-cog"></i></a>
             <div class="content-theme-setting">
                 <select id="list-style" class="form-control">
@@ -52,19 +125,13 @@ include_once("mainstart.php");
             <nav id="topbar" role="navigation" style="margin-bottom: 0;" data-step="3" class="navbar navbar-default navbar-static-top">
             <div class="navbar-header">
                 <button type="button" data-toggle="collapse" data-target=".sidebar-collapse" class="navbar-toggle"><span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button>
-                 <?php include_once("logoup.php") ?>
+                <?php include_once("logoup.php") ?>
             <div class="topbar-main"><a id="menu-toggle" href="#" class="hidden-xs"><i class="fa fa-bars"></i></a>
                 
-
-
-                <form id="topbar-search" action="poisk.php" method="POST" class="hidden-sm hidden-xs">
-                    <div class="input-icon right text-white"><a href="poisk.php"><i class="fa fa-search"></i></a><input type="text" placeholder="Поиск..." class="form-control text-white"/></div>
+                <form id="topbar-search" action="" method="" class="hidden-sm hidden-xs">
+                    <div class="input-icon right text-white"><a href="#"><i class="fa fa-search"></i></a><input type="text" placeholder="Search here..." class="form-control text-white"/></div>
                 </form>
-
-
-
-
-                 <?php include_once("runstrok.php") ?>
+                <?php include_once("runstrok.php") ?>
                 <ul class="nav navbar navbar-top-links navbar-right mbn">
                     <li class="dropdown"><a data-hover="dropdown" href="#" class="dropdown-toggle"><i class="fa fa-bell fa-fw"></i><span class="badge badge-green">3</span></a>
                         
@@ -128,20 +195,17 @@ include_once("mainstart.php");
         </nav>
           
           
-          
-          
-          
             <div id="page-wrapper">
                 <!--BEGIN TITLE & BREADCRUMB PAGE-->
                 <div id="title-breadcrumb-option-demo" class="page-title-breadcrumb">
                     <div class="page-header pull-left">
                         <div class="page-title">
-                            404 Страница не найдена</div>
+                            Желтые страницы интернет</div>
                     </div>
                     <ol class="breadcrumb page-breadcrumb pull-right">
-                        <li><i class="fa fa-home"></i>&nbsp;<a href="dashboard.html">Главная</a>&nbsp;&nbsp;<i class="fa fa-angle-right"></i>&nbsp;&nbsp;</li>
-                        <li class="hidden"><a href="#">Pages</a>&nbsp;&nbsp;<i class="fa fa-angle-right"></i>&nbsp;&nbsp;</li>
-                        <li class="active">Ошибка страницы</li>
+                        <li><i class="fa fa-home"></i>&nbsp;<a href="yellopage.php">Главная</a>&nbsp;&nbsp;<i class="fa fa-angle-right"></i>&nbsp;&nbsp;</li>
+                        <li class="active"><a href="utilit.php">Дополнительные услуги</a>&nbsp;&nbsp;<i class="fa fa-angle-right"></i>&nbsp;&nbsp;</li>
+                        <li class="active">Желтые страницы</li>
                     </ol>
                     <div class="clearfix">
                     </div>
@@ -151,62 +215,197 @@ include_once("mainstart.php");
                 <div class="page-content">
                     <div id="tab-general">
                         <div class="row mbl">
-                        
-              <div class="col-lg-6">
-              <div class="panel">  
-              <div class="panel-body"><h4 class="block-heading">Такой страницы нет</h4>
-              <div id="nestable" class="dd">                 
-              Если у Вас возникли вопросы, свяжитесь с нашей службой безопасности, отправив электронное сообщение по адресу kupinov@mail.ru Подробнее можно узнать из нашего официального блога.                              
-              </div>
-              </div>                        
-              </div>
-              </div>                        
-                          
-          
-                        
-                        
-                        
                             <div class="col-lg-12">
-                            
-                            
-      
-                            
                                 
                                             <div class="col-md-12">
                                                 <div id="area-chart-spline" style="width: 100%; height: 300px; display: none;">
                                                 </div>
                                             </div>
-                                <img src="/images/n404.jpg" alt="ошибка страницы">
+                                
+                            </div>
+
+                            <div class="col-lg-12">
+                            <div class="row">
+
+				         <ul class="pagination mtm mbm">                                            
+                                            <li><a href="yellopage.php?sim=0">0-9</a></li>
+                                            <li><a href="yellopage.php?sim=A">A</a></li>
+                                            <li><a href="yellopage.php?sim=B">B</a></li>
+                                            <li><a href="yellopage.php?sim=C">C</a></li>
+                                            <li><a href="yellopage.php?sim=D">D</a></li>
+                                            <li><a href="yellopage.php?sim=E">E</a></li>
+					    <li><a href="yellopage.php?sim=F">F</a></li>
+                                            <li><a href="yellopage.php?sim=G">G</a></li>
+                                            <li><a href="yellopage.php?sim=H">H</a></li>
+                                            <li><a href="yellopage.php?sim=I">I</a></li>
+                                            <li><a href="yellopage.php?sim=J">J</a></li>
+                                            <li><a href="yellopage.php?sim=K">K</a></li>
+                                            <li><a href="yellopage.php?sim=L">L</a></li>
+                                            <li><a href="yellopage.php?sim=M">M</a></li>
+                                            <li><a href="yellopage.php?sim=N">N</a></li>
+                                            <li><a href="yellopage.php?sim=O">O</a></li>
+					    <li><a href="yellopage.php?sim=P">P</a></li>
+                                            <li><a href="yellopage.php?sim=Q">Q</a></li>
+                                            <li><a href="yellopage.php?sim=R">R</a></li>
+                                            <li><a href="yellopage.php?sim=S">S</a></li>
+                                            <li><a href="yellopage.php?sim=T">T</a></li>
+                                            <li><a href="yellopage.php?sim=U">U</a></li>
+                                            <li><a href="yellopage.php?sim=V">V</a></li>
+                                            <li><a href="yellopage.php?sim=W">W</a></li>
+                                            <li><a href="yellopage.php?sim=X">X</a></li>
+                                            <li><a href="yellopage.php?sim=Y">Y</a></li>
+					    <li><a href="yellopage.php?sim=Z">Z</a></li>                                            
+                                        </ul>
+					
+					<BR>
+
+
+					
+
+					<?php  
+					$mmax = $m - 1;
+					$mmin = $m + 1;
+					?>
+
+					<ul class="pagination pagination-sm mtm mbm">
+                                         <?php  echo '<li><a href="yellopage.php?sim='.$sim.'&m='.$mmax.'">&laquo;</a></li>'; ?>
+                                            <?php echo '<li><a href="#">'.$m.' страница</a></li>'; ?>                                            
+                                         <?php  echo '<li><a href="yellopage.php?sim='.$sim.'&m='.$mmin.'">&raquo;</a></li>'; ?>
+                                        </ul>
+<form action="yellopage.php" method="post">               
+<p>Слово поиска <input type="text" name="poisk"/><input type="submit" /> </p>
+</form>
+<a href="fil.php" class="navbar-brand">Фильтр</a>
+
+                    
+                        <div class="panel panel-yellow">
+                            <div class="panel-heading">Список сайтов <?php echo ($sim); echo ('Описание ('.$ftitle.', порт '.$tipport.')') ?>  '</div>
+                            <div class="panel-body">
+                                <table class="table table-hover">
+                                    <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>Сайт</th>
+                                        <th>Описание</th>
+                                        <th>Статус</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+
+
+<?php
+
+				$hostname = "127.0.0.1";
+			        $username = "izofen";
+			        $password = "podkjf4";
+			        $dbName   = "rusnet";
+			        mysql_connect($hostname,$username,$password) OR DIE("Не могу создать соединение ");
+			        mysql_query("SET NAMES 'utf-8'"); 
+			        mysql_query("SET NAMES 'utf8'");
+
+				$userstable = "site";
+  				mysql_select_db($dbName);
+          
+    if ($_SESSION['tipport']  == '1450')
+    { 
+    $p1450 = "%open%";
+    }     
+    else
+    { 
+    $p1450 = "%";
+    }          
+
+
+    if ($_SESSION['tipport']  == '445')
+    { 
+    $p445 = "%open%";
+    }     
+    else
+    { 
+    $p445 = "%";
+    }          
+
+
+    if ($_SESSION['tipport']  == '21')
+    { 
+    $p21 = "%open%";
+    }     
+    else
+    { 
+    $p21 = "%";
+    }          
+
+          
+          
+		$query = "SELECT * FROM $userstable WHERE titlerus like '".$ftitle."' and namerus like '".$sim."%' and titlerus <> 'сайт не найден' and titlerus <> 'не обработано' and  p1450 like '".$p1450."' and  p21 like '".$p21."' and  p445 like '".$p445."'   Limit ".$min.",".$max." ";
+		//echo $query;
+
+																   	
+
+
+                                //echo ($query);   
+				$res = mysql_query($query) ;  
+                                $nomer = ($m-1)*100;
+				while ($row=mysql_fetch_array($res)) 
+  				{
+			        	
+				 echo '<tr>';
+                                        $nomer = $nomer + 1;
+                                        echo '<td>'.$nomer.'</td>';
+                                        echo '<td><a href="http://www.'.$row[namerus].'">'.$row[namerus].'</a></td>';
+                                        echo '<td><a href="edit.php?id='.$row[id].'">'.$row[titlerus].'</a></td>';
+                                        echo '<td><span class="label label-sm label-success">+15</span></td>';
+                                 echo '</tr>';
+
+
+				}	
+
+?>
+
+                                   
+
+
+
+                                    <tr>
+                                        <td>2</td>
+                                        <td>John</td>
+                                        <td>45</td>
+                                        <td><span class="label label-sm label-info">Pending</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td>3</td>
+                                        <td>Larry</td>
+                                        <td>30</td>
+                                        <td><span class="label label-sm label-warning">Suspended</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td>4</td>
+                                        <td>Lahm</td>
+                                        <td>15</td>
+                                        <td><span class="label label-sm label-danger">Blocked</span></td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        
+                   
+                     </div>
+                        </div>
+                    </div>
+                </div>
+                            
+                            
+                            </div>
                             
                         </div>
-                        <BR>
-		                  	<BR> 
-                        <!--END TITLE & BREADCRUMB PAGE-->
-                <!--BEGIN CONTENT-->
-                       
-                          
-                                                  
-                        
-                         
-                        <BR>
-		                  	<BR> 
-
-
-					<?php 
-                                        // 4 блока в конце сайта 
-                                        include_once("main4blok.php");
-					?> 
-
-
-
-
                     </div>
                 </div>
                 <!--END CONTENT-->
                 <!--BEGIN FOOTER-->
                 <div id="footer">
                     <div class="copyright">
-                        <td align="center"> <a href="http://mailvirtual.ru">2014 © ООО ФИТА</a></div>
+                        <a href="http://themifycloud.com">2014 © KAdmin Responsive Multi-Purpose Template</a></div>
                 </div>
                 <!--END FOOTER-->
             </div>

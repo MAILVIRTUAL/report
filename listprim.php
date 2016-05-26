@@ -1,12 +1,36 @@
-
 <?php 
-include_once("mainstart.php");
+   include_once("mainstart.php");
+   $otvet = "";
+   $utoch = "";
+
+    // Срабатывает при выборе меню
+   if (isset($_GET ['opis']))
+   {
+    $opis = $_GET ['opis'];
+    $userstable = "firmlist";
+    mysql_select_db($dbName); 
+    $query = "SELECT * FROM $userstable WHERE id=".$opis." ";
+    $res = mysql_query($query) ;  
+    while ($row=mysql_fetch_array($res)) 
+        {
+          $tekst  = $row [tekst]; 
+          $opis = $row [opis];  
+        }
+   } 
+   else
+   {
+          $tekst  = 'Выберите меню для подробного описания'; 
+          $opis = 'Список электронных приемных.';                
+   }
+ 
+
+ 
 ?> 
 
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-    <title>404 Страница не найдена </title>
+    <title>Список электронных приемных</title>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -27,9 +51,10 @@ include_once("mainstart.php");
     <link type="text/css" rel="stylesheet" href="styles/zabuto_calendar.min.css">
     <link type="text/css" rel="stylesheet" href="styles/pace.css">
     <link type="text/css" rel="stylesheet" href="styles/jquery.news-ticker.css">
+     <link type="text/css" rel="stylesheet" href="styles/nestable.css">
 </head>
 <body>
-<?php $protokol = '404 страница'; include_once("analyticstracking.php") ?>
+<?php $protokol = 'Электронные приемные'; include_once("analyticstracking.php") ?>
     <div>
         <!--BEGIN THEME SETTING-->
         <div id="theme-setting">
@@ -37,9 +62,9 @@ include_once("mainstart.php");
                 data-position="left" class="btn-theme-setting"><i class="fa fa-cog"></i></a>
             <div class="content-theme-setting">
                 <select id="list-style" class="form-control">
-                    <option value="style1">Flat Squared style</option>
-                    <option value="style2">Flat Rounded style</option>
-                    <option value="style3" selected="selected">Flat Border style</option>
+                    <option value="style1">Желтый стиль</option>
+                    <option value="style2">Красный стиль</option>
+                    <option value="style3" selected="selected">Синий стиль</option>
                 </select>
             </div>
         </div>
@@ -52,29 +77,18 @@ include_once("mainstart.php");
             <nav id="topbar" role="navigation" style="margin-bottom: 0;" data-step="3" class="navbar navbar-default navbar-static-top">
             <div class="navbar-header">
                 <button type="button" data-toggle="collapse" data-target=".sidebar-collapse" class="navbar-toggle"><span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button>
-                 <?php include_once("logoup.php") ?>
+                <?php include_once("logoup.php") ?>
             <div class="topbar-main"><a id="menu-toggle" href="#" class="hidden-xs"><i class="fa fa-bars"></i></a>
                 
-
-
                 <form id="topbar-search" action="poisk.php" method="POST" class="hidden-sm hidden-xs">
                     <div class="input-icon right text-white"><a href="poisk.php"><i class="fa fa-search"></i></a><input type="text" placeholder="Поиск..." class="form-control text-white"/></div>
                 </form>
 
 
 
-
-                 <?php include_once("runstrok.php") ?>
-                <ul class="nav navbar navbar-top-links navbar-right mbn">
-                    <li class="dropdown"><a data-hover="dropdown" href="#" class="dropdown-toggle"><i class="fa fa-bell fa-fw"></i><span class="badge badge-green">3</span></a>
-                        
-                    </li>
-                    <li class="dropdown"><a data-hover="dropdown" href="#" class="dropdown-toggle"><i class="fa fa-envelope fa-fw"></i><span class="badge badge-orange">7</span></a>
-                        
-                    </li>
-                    <li class="dropdown"><a data-hover="dropdown" href="#" class="dropdown-toggle"><i class="fa fa-tasks fa-fw"></i><span class="badge badge-yellow">8</span></a>
-                        
-                    </li>
+<?php include_once("runstrok.php") ?>
+              <ul class="nav navbar navbar-top-links navbar-right mbn">
+                    <?php include_once("addtask.php") ?>
                     <?php include_once("insute.php") ?>
                     <li id="topbar-chat" class="hidden-xs"><a href="javascript:void(0)" data-step="4" data-intro="&lt;b&gt;Form chat&lt;/b&gt; keep you connecting with other coworker" data-position="left" class="btn-chat"><i class="fa fa-comments"></i><span class="badge badge-info">3</span></a></li>
                 </ul>
@@ -128,20 +142,17 @@ include_once("mainstart.php");
         </nav>
           
           
-          
-          
-          
             <div id="page-wrapper">
                 <!--BEGIN TITLE & BREADCRUMB PAGE-->
                 <div id="title-breadcrumb-option-demo" class="page-title-breadcrumb">
                     <div class="page-header pull-left">
                         <div class="page-title">
-                            404 Страница не найдена</div>
+                            Электронные приемные</div>
                     </div>
                     <ol class="breadcrumb page-breadcrumb pull-right">
-                        <li><i class="fa fa-home"></i>&nbsp;<a href="dashboard.html">Главная</a>&nbsp;&nbsp;<i class="fa fa-angle-right"></i>&nbsp;&nbsp;</li>
-                        <li class="hidden"><a href="#">Pages</a>&nbsp;&nbsp;<i class="fa fa-angle-right"></i>&nbsp;&nbsp;</li>
-                        <li class="active">Ошибка страницы</li>
+                        <li><i class="fa fa-home"></i>&nbsp;<a href="index.php">Главная</a>&nbsp;&nbsp;<i class="fa fa-angle-right"></i>&nbsp;&nbsp;</li>
+                        <li class="hidden"><a href="#">Dropdown</a>&nbsp;&nbsp;<i class="fa fa-angle-right"></i>&nbsp;&nbsp;</li>
+                        <li class="active">Электронные приемные</li>
                     </ol>
                     <div class="clearfix">
                     </div>
@@ -151,62 +162,116 @@ include_once("mainstart.php");
                 <div class="page-content">
                     <div id="tab-general">
                         <div class="row mbl">
-                        
-              <div class="col-lg-6">
-              <div class="panel">  
-              <div class="panel-body"><h4 class="block-heading">Такой страницы нет</h4>
-              <div id="nestable" class="dd">                 
-              Если у Вас возникли вопросы, свяжитесь с нашей службой безопасности, отправив электронное сообщение по адресу kupinov@mail.ru Подробнее можно узнать из нашего официального блога.                              
-              </div>
-              </div>                        
-              </div>
-              </div>                        
-                          
-          
-                        
-                        
-                        
                             <div class="col-lg-12">
-                            
-                            
-      
-                            
                                 
                                             <div class="col-md-12">
                                                 <div id="area-chart-spline" style="width: 100%; height: 300px; display: none;">
                                                 </div>
                                             </div>
-                                <img src="/images/n404.jpg" alt="ошибка страницы">
+                                
+                            </div>
+
+                            <div class="col-lg-12">
+                              
+                                    <div class="row">
+                     <div class="col-lg-6">
+                        <div class="panel">     
+                            <div class="panel-body"><h4 class="block-heading">Список</h4>
                             
+                                 
+                                 <div id="nestable" class="dd">                                
+                                    <ol class="dd-list">
+
+
+
+
+
+
+
+
+
+				<?php 
+	  		        $userstable = "onlineservis";
+        	                mysql_select_db($dbName); 
+               	   		$query = "SELECT * FROM $userstable WHERE 1=1 ";
+		        	$res = mysql_query($query) ;  
+        			while ($row=mysql_fetch_array($res)) 
+        			{
+		           		$titlename = $row[titlename];               
+                                        echo '<li data-id="3" class="dd-item">  ';
+                                        echo '<div class="dd3-content"><a href="listprim.php?opis='.$row[id].'">'.$titlename.'</a></div>';
+                                        echo '</li>';
+	        		}
+				?>
+                                    </ol>
+                                </div>
+                            </div>
                         </div>
-                        <BR>
-		                  	<BR> 
-                        <!--END TITLE & BREADCRUMB PAGE-->
-                <!--BEGIN CONTENT-->
-                       
-                          
-                                                  
-                        
-                         
-                        <BR>
-		                  	<BR> 
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="panel">
+                            <div class="panel-body"><h4 class="block-heading">Описание</h4>
+
+                                       
+                              <?php echo ($opis); ?>             
+
+                                
+                            </div>
+                        </div>
+                        <div class="panel">
+                            <div class="panel-body"><h4 class="block-heading">Помощь</h4>
+
+                              <?php echo ($opis); ?> 
+                                
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                              
+                              
+                                </div>
+                                
+</div>
+                                <div class="row">
+                                    <div class="col-lg-12"><h2 class="mbxl">Блоги сайта</h2>
+                                        <div class="row">
+
+
 
 
 					<?php 
                                         // 4 блока в конце сайта 
                                         include_once("main4blok.php");
-					?> 
+					?> 			
 
 
 
 
+
+
+										<div class="common-modal modal fade" id="common-Modal1" tabindex="-1" role="dialog" aria-hidden="true">
+											<div class="modal-content">
+												<ul class="list-inline item-details">
+													<li><a href="http://themifycloud.com">Admin templates</a></li>
+													<li><a href="http://themescloud.org">Bootstrap themes</a></li>
+												</ul>
+											</div>
+										</div>
+                                    </div>
+                                </div>
+                            
+                            
+                            </div>                            
+                     
+                            
+                        </div>
                     </div>
                 </div>
                 <!--END CONTENT-->
                 <!--BEGIN FOOTER-->
                 <div id="footer">
                     <div class="copyright">
-                        <td align="center"> <a href="http://mailvirtual.ru">2014 © ООО ФИТА</a></div>
+                        <a href="http://www.mailvirtual.ru">2016 © ООО ФИТА тел. 8 (3532) 27-15-63, ICQ 443039, e-mail kupinov@mail.ru, skype Izofen74, viber +79033671563 </a></div>
                 </div>
                 <!--END FOOTER-->
             </div>
@@ -239,6 +304,7 @@ include_once("mainstart.php");
     <script src="script/jquery.flot.stack.js"></script>
     <script src="script/jquery.flot.spline.js"></script>
     <script src="script/zabuto_calendar.min.js"></script>
+
     <script src="script/index.js"></script>
     <!--LOADING SCRIPTS FOR CHARTS-->
     <script src="script/highcharts.js"></script>
@@ -248,6 +314,9 @@ include_once("mainstart.php");
     <script src="script/highcharts-more.js"></script>
     <script src="script/charts-highchart-pie.js"></script>
     <script src="script/charts-highchart-more.js"></script>
+
+    <script src="script/jquery.nestable.js"></script>
+<script src="script/ui-nestable-list.js"></script>
     <!--CORE JAVASCRIPT-->
     <script src="script/main.js"></script>
     <script>        (function (i, s, o, g, r, a, m) {

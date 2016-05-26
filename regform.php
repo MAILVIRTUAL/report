@@ -1,12 +1,7 @@
-
-<?php 
-include_once("mainstart.php");
-?> 
-
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="en">
 <head>
-    <title>404 Страница не найдена </title>
+    <title>Форма регистрации</title>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -29,7 +24,7 @@ include_once("mainstart.php");
     <link type="text/css" rel="stylesheet" href="styles/jquery.news-ticker.css">
 </head>
 <body>
-<?php $protokol = '404 страница'; include_once("analyticstracking.php") ?>
+<?php include_once("analyticstracking.php") ?>
     <div>
         <!--BEGIN THEME SETTING-->
         <div id="theme-setting">
@@ -52,19 +47,13 @@ include_once("mainstart.php");
             <nav id="topbar" role="navigation" style="margin-bottom: 0;" data-step="3" class="navbar navbar-default navbar-static-top">
             <div class="navbar-header">
                 <button type="button" data-toggle="collapse" data-target=".sidebar-collapse" class="navbar-toggle"><span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button>
-                 <?php include_once("logoup.php") ?>
+                <?php include_once("logoup.php") ?>
             <div class="topbar-main"><a id="menu-toggle" href="#" class="hidden-xs"><i class="fa fa-bars"></i></a>
                 
-
-
-                <form id="topbar-search" action="poisk.php" method="POST" class="hidden-sm hidden-xs">
-                    <div class="input-icon right text-white"><a href="poisk.php"><i class="fa fa-search"></i></a><input type="text" placeholder="Поиск..." class="form-control text-white"/></div>
+                <form id="topbar-search" action="" method="" class="hidden-sm hidden-xs">
+                    <div class="input-icon right text-white"><a href="#"><i class="fa fa-search"></i></a><input type="text" placeholder="Search here..." class="form-control text-white"/></div>
                 </form>
-
-
-
-
-                 <?php include_once("runstrok.php") ?>
+                <?php include_once("runstrok.php") ?>
                 <ul class="nav navbar navbar-top-links navbar-right mbn">
                     <li class="dropdown"><a data-hover="dropdown" href="#" class="dropdown-toggle"><i class="fa fa-bell fa-fw"></i><span class="badge badge-green">3</span></a>
                         
@@ -75,7 +64,7 @@ include_once("mainstart.php");
                     <li class="dropdown"><a data-hover="dropdown" href="#" class="dropdown-toggle"><i class="fa fa-tasks fa-fw"></i><span class="badge badge-yellow">8</span></a>
                         
                     </li>
-                    <?php include_once("insute.php") ?>
+                     <?php include_once("insute.php") ?>
                     <li id="topbar-chat" class="hidden-xs"><a href="javascript:void(0)" data-step="4" data-intro="&lt;b&gt;Form chat&lt;/b&gt; keep you connecting with other coworker" data-position="left" class="btn-chat"><i class="fa fa-comments"></i><span class="badge badge-info">3</span></a></li>
                 </ul>
             </div>
@@ -126,22 +115,18 @@ include_once("mainstart.php");
                 </ul>
             </div>
         </nav>
-          
-          
-          
-          
-          
             <div id="page-wrapper">
                 <!--BEGIN TITLE & BREADCRUMB PAGE-->
                 <div id="title-breadcrumb-option-demo" class="page-title-breadcrumb">
                     <div class="page-header pull-left">
                         <div class="page-title">
-                            404 Страница не найдена</div>
+                            Форма регистрации</div>
                     </div>
                     <ol class="breadcrumb page-breadcrumb pull-right">
-                        <li><i class="fa fa-home"></i>&nbsp;<a href="dashboard.html">Главная</a>&nbsp;&nbsp;<i class="fa fa-angle-right"></i>&nbsp;&nbsp;</li>
-                        <li class="hidden"><a href="#">Pages</a>&nbsp;&nbsp;<i class="fa fa-angle-right"></i>&nbsp;&nbsp;</li>
-                        <li class="active">Ошибка страницы</li>
+                        <li><i class="fa fa-home"></i>&nbsp;<a href="dashboard.html">Home</a>&nbsp;&nbsp;<i
+                            class="fa fa-angle-right"></i>&nbsp;&nbsp;</li>
+                        <li class="hidden"><a href="#">Forms</a>&nbsp;&nbsp;<i class="fa fa-angle-right"></i>&nbsp;&nbsp;</li>
+                        <li class="active">Forms</li>
                     </ol>
                     <div class="clearfix">
                     </div>
@@ -151,62 +136,102 @@ include_once("mainstart.php");
                 <div class="page-content">
                     <div id="tab-general">
                         <div class="row mbl">
-                        
-              <div class="col-lg-6">
-              <div class="panel">  
-              <div class="panel-body"><h4 class="block-heading">Такой страницы нет</h4>
-              <div id="nestable" class="dd">                 
-              Если у Вас возникли вопросы, свяжитесь с нашей службой безопасности, отправив электронное сообщение по адресу kupinov@mail.ru Подробнее можно узнать из нашего официального блога.                              
-              </div>
-              </div>                        
-              </div>
-              </div>                        
-                          
-          
-                        
-                        
-                        
                             <div class="col-lg-12">
-                            
-                            
-      
-                            
-                                
-                                            <div class="col-md-12">
-                                                <div id="area-chart-spline" style="width: 100%; height: 300px; display: none;">
+                                <div class="col-md-12">
+                                    <div id="area-chart-spline" style="width: 100%; height: 300px; display: none;">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-12">
+                                <div class="row">
+                              
+                                        
+
+
+
+                                    
+                                        <div class="panel panel-orange">
+                                            <div class="panel-heading">
+                                                Форма регистрации</div>
+                                            <div class="panel-body pan">
+                                                <form action="logo.php">
+                                                <div class="form-body pal">
+                                                    <div class="form-group">
+                                                        <div class="input-icon right">
+                                                            <i class="fa fa-user"></i>
+                                                            Логин 
+                                                            <input name = "inputNameKl" id="inputNameKl" type="text" placeholder="Логин" class="form-control" /></div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <div class="input-icon right">
+                                                            <i class="fa fa-envelope"></i>
+                                                            E-mail 
+                                                            <input name = "inputEmailkl" id="inputEmailkl" type="text" placeholder="E-почта" class="form-control" /></div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <div class="input-icon right">
+                                                            <i class="fa fa-lock"></i>
+                                                            Пароль
+                                                            <input name = "inputPassword" id="inputPassword" type="password" placeholder="Пароль" class="form-control" /></div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <div class="input-icon right">
+                                                            <i class="fa fa-lock"></i>
+                                                            Повторный пароль
+                                                            <input name = "inputConfirmPassword" id="inputConfirmPassword" type="password" placeholder="Повторно пароль" class="form-control" /></div>
+                                                    </div>
+                                                    <hr />
+                                                    <div class="row">
+                                                        <div class="col-md-6">
+                                                            <div class="form-group">
+                                                                Имя
+                                                                <input name="inputFirstName" id="inputFirstName" type="text" placeholder="Имя" class="form-control" /></div>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <div class="form-group">
+                                                                Фамилия
+                                                                <input name="inputLastName" id="inputLastName" type="text" placeholder="Фамилия" class="form-control" /></div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        Вид обращения
+                                                        <select class="form-control">
+                                                            <option value="0">Мужской</option>
+                                                            <option value="1">Женский</option>
+                                                            <option value="2">Игнорировать</option>
+                                                        </select></div>
+                                                    <div class="form-group">
+                                                        <div class="checkbox">
+                                                            <label>
+                                                                <input tabindex="5" type="checkbox" />&nbsp; Я согласен с правилами сайта.</label></div>
+                                                    </div>
+                                                    <div class="form-group mbn">
+                                                        <div class="checkbox">
+                                                            <label>
+                                                                <input tabindex="5" type="checkbox" />&nbsp; Я позваляю хранить мои учетные записи.</label></div>
+                                                    </div>
                                                 </div>
+                                                <div class="form-actions text-right pal">
+                                                    <button type="submit" class="btn btn-primary">
+                                                        Сохранить</button>
+                                                </div>
+                                                </form>
                                             </div>
-                                <img src="/images/n404.jpg" alt="ошибка страницы">
-                            
+                                        </div>
+
+
+
+                                   
+                                </div>
+                            </div>
                         </div>
-                        <BR>
-		                  	<BR> 
-                        <!--END TITLE & BREADCRUMB PAGE-->
-                <!--BEGIN CONTENT-->
-                       
-                          
-                                                  
-                        
-                         
-                        <BR>
-		                  	<BR> 
-
-
-					<?php 
-                                        // 4 блока в конце сайта 
-                                        include_once("main4blok.php");
-					?> 
-
-
-
-
                     </div>
                 </div>
                 <!--END CONTENT-->
                 <!--BEGIN FOOTER-->
                 <div id="footer">
                     <div class="copyright">
-                        <td align="center"> <a href="http://mailvirtual.ru">2014 © ООО ФИТА</a></div>
+                        <a href="http://themifycloud.com">2014 © KAdmin Responsive Multi-Purpose Template</a></div>
                 </div>
                 <!--END FOOTER-->
             </div>

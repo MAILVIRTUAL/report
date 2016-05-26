@@ -1,12 +1,141 @@
-
 <?php 
-include_once("mainstart.php");
-?> 
+   // Стандартный набор для всех страниц
+   include_once("mainstart.php");
 
+   $uploaddir    = '/var/www/html/blog/pict';
+   $uploadfile   = $uploaddir.basename($_FILES['uploadfile']['name']);
+   $uploadTemp   = $_FILES['uploadfile']['tmp_name'];
+   $edit         = $_GET [edit];
+   
+   $otvet        = "";
+   $utoch        = "";
+   $Obrashen     = "";
+   
+
+  // Создаем БЛОГ новостей
+
+   if (isset($_POST ['temablog']))
+   {
+        $uploaddir = '/var/www/html/blog/pict/';
+   	$uploadfile = $uploaddir.basename($_FILES['uploadfile']['name']);
+   	$uploadTemp   = $_FILES['uploadfile']['tmp_name'];
+        $uploadSite = $_FILES['uploadfile']['name'];
+	$temablog        = $_POST ['temablog'];
+	$qvestblok       = $_POST ['qvestblok']; 
+        if (copy($_FILES['uploadfile']['tmp_name'], $uploadfile))
+        {
+        }
+        else 
+        { 
+        }
+
+
+        mysql_select_db($dbName) or die(mysql_error()); 
+        // Место где мы определяемся редактируем объект или создаем новый
+        if ($_GET ['edit'] == 'yes')
+        {
+         $idblog = $_GET ['idnew'];         
+         $query = "UPDATE blogi SET opis = '".$qvestblok."', title = '".$temablog."'  WHERE id = '".$idblog."'";         
+         if ($uploadSite <> '') 
+         {
+          $query = "UPDATE blogi SET opis = '".$qvestblok."', title = '".$temablog."', pict = '".$uploadSite."'  WHERE id = '".$idblog."'";  
+         }  
+          else
+         {
+          $query = "UPDATE blogi SET opis = '".$qvestblok."', title = '".$temablog."'  WHERE id = '".$idblog."'";            
+         }         
+         
+         
+         
+                               
+        }
+        else
+        {
+		$tekdata = date("Y-m-d");
+		//echo $tekdata;
+        	$query = "INSERT INTO blogi (title,opis,href,idavtor,pict,datadocum) VALUES ('".$temablog."','".$qvestblok."','".$hrefblok."','".$idKlienta."','".$uploadSite."','".$tekdata."')";
+		//echo ($query);
+        }
+        $res = mysql_query($query);
+        if ($res == 'true')
+        {
+            $metkahorvop = "yes";
+        }
+        else
+        {
+        }       
+        if ($res == 'true')
+        {
+                $latest_id = mysql_insert_id(); 
+        }
+        else
+        {
+        	//echo "Данные не обновлены!";
+        }     
+   }
+
+
+
+  // Открываем новости присланные нам по ссылке
+  $idnew   = $_GET  ['idnew'];
+  if ($latest_id <> '')
+  {
+	$idnew = $latest_id; 
+
+  }
+  if ($idnew == '')
+  {
+	$idnew = 23; 
+
+  }
+
+
+
+  $userstable = "blogi";
+  mysql_select_db($dbName); 
+  $query = "SELECT * FROM $userstable WHERE id = '".$idnew."'";
+  $res = mysql_query($query) ;  
+  while ($row=mysql_fetch_array($res)) 
+  {
+      //$Obrashen = $row[FirstName]." ".$row[LastName];
+      $mainblok  = $row[opis]; 
+      $maintitle = $row[title]; 
+      $mainhref  = $row[href];
+      $idavtor  = $row[idavtor];
+      $pictblog = $row[pict]; 
+  }
+
+
+ 
+
+  
+  // Ищем фотографию автора
+  $userstable = "user";
+  mysql_select_db($dbName); 
+  $query = "SELECT * FROM $userstable WHERE id = '".$idavtor."'";
+  //echo $idavtor; 
+  $res = mysql_query($query);  
+  while ($row=mysql_fetch_array($res)) 
+  {
+      //$Obrashen = $row[FirstName]." ".$row[LastName];
+      //$mainblok  = $row[opis]; 
+      $mainpic  = $row[fotoklienta];
+      $Avtor = $row[FirstName]." ".$row[LastName];
+      $prof  = $row[prof];
+  }
+
+
+
+
+  
+?> 
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-    <title>404 Страница не найдена </title>
+<?php
+    echo '<title>'.$maintitle.'</title>';
+   //echo ''.$temablog.'';
+?>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -29,7 +158,7 @@ include_once("mainstart.php");
     <link type="text/css" rel="stylesheet" href="styles/jquery.news-ticker.css">
 </head>
 <body>
-<?php $protokol = '404 страница'; include_once("analyticstracking.php") ?>
+<?php include_once("analyticstracking.php") ?>
     <div>
         <!--BEGIN THEME SETTING-->
         <div id="theme-setting">
@@ -52,19 +181,13 @@ include_once("mainstart.php");
             <nav id="topbar" role="navigation" style="margin-bottom: 0;" data-step="3" class="navbar navbar-default navbar-static-top">
             <div class="navbar-header">
                 <button type="button" data-toggle="collapse" data-target=".sidebar-collapse" class="navbar-toggle"><span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button>
-                 <?php include_once("logoup.php") ?>
+                <?php include_once("logoup.php") ?>
             <div class="topbar-main"><a id="menu-toggle" href="#" class="hidden-xs"><i class="fa fa-bars"></i></a>
                 
-
-
-                <form id="topbar-search" action="poisk.php" method="POST" class="hidden-sm hidden-xs">
-                    <div class="input-icon right text-white"><a href="poisk.php"><i class="fa fa-search"></i></a><input type="text" placeholder="Поиск..." class="form-control text-white"/></div>
+                <form id="topbar-search" action="" method="" class="hidden-sm hidden-xs">
+                    <div class="input-icon right text-white"><a href="#"><i class="fa fa-search"></i></a><input type="text" placeholder="Search here..." class="form-control text-white"/></div>
                 </form>
-
-
-
-
-                 <?php include_once("runstrok.php") ?>
+<?php include_once("runstrok.php") ?>
                 <ul class="nav navbar navbar-top-links navbar-right mbn">
                     <li class="dropdown"><a data-hover="dropdown" href="#" class="dropdown-toggle"><i class="fa fa-bell fa-fw"></i><span class="badge badge-green">3</span></a>
                         
@@ -128,20 +251,17 @@ include_once("mainstart.php");
         </nav>
           
           
-          
-          
-          
             <div id="page-wrapper">
                 <!--BEGIN TITLE & BREADCRUMB PAGE-->
                 <div id="title-breadcrumb-option-demo" class="page-title-breadcrumb">
                     <div class="page-header pull-left">
                         <div class="page-title">
-                            404 Страница не найдена</div>
+                            Блоги клиентов</div>
                     </div>
                     <ol class="breadcrumb page-breadcrumb pull-right">
-                        <li><i class="fa fa-home"></i>&nbsp;<a href="dashboard.html">Главная</a>&nbsp;&nbsp;<i class="fa fa-angle-right"></i>&nbsp;&nbsp;</li>
-                        <li class="hidden"><a href="#">Pages</a>&nbsp;&nbsp;<i class="fa fa-angle-right"></i>&nbsp;&nbsp;</li>
-                        <li class="active">Ошибка страницы</li>
+                        <li><i class="fa fa-home"></i>&nbsp;<a href="dashboard.html">Начало</a>&nbsp;&nbsp;<i class="fa fa-angle-right"></i>&nbsp;&nbsp;</li>
+                        <li class="active"><a href="obyavlen.php">Список блогов</a>&nbsp;&nbsp;<i class="fa fa-angle-right"></i>&nbsp;&nbsp;</li>
+                        <li class="active">Блог</li>
                     </ol>
                     <div class="clearfix">
                     </div>
@@ -151,48 +271,84 @@ include_once("mainstart.php");
                 <div class="page-content">
                     <div id="tab-general">
                         <div class="row mbl">
-                        
-              <div class="col-lg-6">
-              <div class="panel">  
-              <div class="panel-body"><h4 class="block-heading">Такой страницы нет</h4>
-              <div id="nestable" class="dd">                 
-              Если у Вас возникли вопросы, свяжитесь с нашей службой безопасности, отправив электронное сообщение по адресу kupinov@mail.ru Подробнее можно узнать из нашего официального блога.                              
-              </div>
-              </div>                        
-              </div>
-              </div>                        
-                          
-          
-                        
-                        
-                        
                             <div class="col-lg-12">
-                            
-                            
-      
-                            
                                 
                                             <div class="col-md-12">
                                                 <div id="area-chart-spline" style="width: 100%; height: 300px; display: none;">
                                                 </div>
                                             </div>
-                                <img src="/images/n404.jpg" alt="ошибка страницы">
+                                
+                            </div>
+
+
+<!--ФОТОГРАФИЯ БЛОГА ПОКА РАЗМЕЩАЕМ ТУТ-->
+                                            <div class="col-lg-3">
+<?php 
+                                              echo '<div class="member-team"><img src="blog/pict/'.$pictblog.'" class="img-responsive"/>';
+                                                    
+?>
+  </div>    </div>
+
+
+<!--ФОТОГРАФИЯ В НАЧАЛЕ КОДА-->
+                                            <div class="col-lg-3">
+<?php 
+                                              echo '<div class="member-team"><img src="upload/'.$mainpic.'" class="img-responsive"/>';
+                                                    echo '<h3>'.$Avtor;
+                                                        echo '<small>>'.$prof.'</small>';
+?>
+
+                                                    </h3>
+
+
+
+
+
+                                                    <ul class="social-icons list-unstyled list-inline mbl mtl">
+                                                        <li><a href="#" data-hover="tooltip" data-original-title="facebook" class="facebook"><i class="fa fa-facebook"></i></a></li>
+                                                        <li><a href="#" data-hover="tooltip" data-original-title="google Plus" class="googleplus"><i class="fa fa-google-plus"></i></a></li>
+                                                        <li><a href="#" data-hover="tooltip" data-original-title="skype" class="skype"><i class="fa fa-skype"></i></a></li>
+                                                        <li><a href="#" data-hover="tooltip" data-original-title="twitter" class="twitter"><i class="fa fa-twitter"></i></a></li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                            
+                                     
+                                            
+                                            
+                                            
+
+                            <div class="col-lg-12">
+                              <div class="col-lg-6">
+                                     
+                               </div>
+                                 
+                                    <?php 
+                                    echo '<div class="col-lg-12"><h2 class="mbxl">'.$maintitle.'</h2>';                                      
+                                    echo ($mainblok);
+                                    
+                                     echo '<BR>';
+                                     echo '<BR>';
+                                     echo '<BR>';
+                                     echo '<a href="'.$mainhref.'">ссылка на статью  '.$mainhref.' </a>';
+                                    
+                                    
+                                    ?> 
                             
-                        </div>
-                        <BR>
-		                  	<BR> 
-                        <!--END TITLE & BREADCRUMB PAGE-->
-                <!--BEGIN CONTENT-->
-                       
-                          
-                                                  
-                        
-                         
-                        <BR>
-		                  	<BR> 
+<?php                             
+echo '<div class="text-center mbl"><a href="obyavlen.php?idblog='.$idnew.'" class="btn btn-green"><i class="fa fa-upload"></i>&nbsp; Редактировать </a></div>'; 
+?>                                
+                            
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-12"><h2 class="mbxl">Похожие блоги</h2>
+
+                                        <div class="row">
 
 
-					<?php 
+
+
+  					<?php 
                                         // 4 блока в конце сайта 
                                         include_once("main4blok.php");
 					?> 
@@ -200,13 +356,32 @@ include_once("mainstart.php");
 
 
 
+
+                                            
+                                            
+                                        </div>
+										<div class="common-modal modal fade" id="common-Modal1" tabindex="-1" role="dialog" aria-hidden="true">
+											<div class="modal-content">
+												<ul class="list-inline item-details">
+													<li><a href="http://themifycloud.com">Admin templates</a></li>
+													<li><a href="http://themescloud.org">Bootstrap themes</a></li>
+												</ul>
+											</div>
+										</div>
+                                    </div>
+                                </div>
+                            
+                            
+                            </div>
+                            
+                        </div>
                     </div>
                 </div>
                 <!--END CONTENT-->
                 <!--BEGIN FOOTER-->
                 <div id="footer">
                     <div class="copyright">
-                        <td align="center"> <a href="http://mailvirtual.ru">2014 © ООО ФИТА</a></div>
+                        <a href="http://themifycloud.com">2014 © KAdmin Responsive Multi-Purpose Template</a></div>
                 </div>
                 <!--END FOOTER-->
             </div>

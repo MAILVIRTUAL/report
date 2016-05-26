@@ -1,12 +1,7 @@
-
-<?php 
-include_once("mainstart.php");
-?> 
-
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="en">
 <head>
-    <title>404 Страница не найдена </title>
+    <title>Tables | Tables</title>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -29,7 +24,6 @@ include_once("mainstart.php");
     <link type="text/css" rel="stylesheet" href="styles/jquery.news-ticker.css">
 </head>
 <body>
-<?php $protokol = '404 страница'; include_once("analyticstracking.php") ?>
     <div>
         <!--BEGIN THEME SETTING-->
         <div id="theme-setting">
@@ -52,19 +46,18 @@ include_once("mainstart.php");
             <nav id="topbar" role="navigation" style="margin-bottom: 0;" data-step="3" class="navbar navbar-default navbar-static-top">
             <div class="navbar-header">
                 <button type="button" data-toggle="collapse" data-target=".sidebar-collapse" class="navbar-toggle"><span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button>
-                 <?php include_once("logoup.php") ?>
+                <a id="logo" href="index.html" class="navbar-brand"><span class="fa fa-rocket"></span><span class="logo-text">KAdmin</span><span style="display: none" class="logo-text-icon">µ</span></a></div>
             <div class="topbar-main"><a id="menu-toggle" href="#" class="hidden-xs"><i class="fa fa-bars"></i></a>
                 
-
-
-                <form id="topbar-search" action="poisk.php" method="POST" class="hidden-sm hidden-xs">
-                    <div class="input-icon right text-white"><a href="poisk.php"><i class="fa fa-search"></i></a><input type="text" placeholder="Поиск..." class="form-control text-white"/></div>
+                <form id="topbar-search" action="" method="" class="hidden-sm hidden-xs">
+                    <div class="input-icon right text-white"><a href="#"><i class="fa fa-search"></i></a><input type="text" placeholder="Search here..." class="form-control text-white"/></div>
                 </form>
-
-
-
-
-                 <?php include_once("runstrok.php") ?>
+                <div class="news-update-box hidden-xs"><span class="text-uppercase mrm pull-left text-white">News:</span>
+                    <ul id="news-update" class="ticker list-unstyled">
+                        <li>Welcome to KAdmin - Responsive Multi-Style Admin Template</li>
+                        <li>At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque.</li>
+                    </ul>
+                </div>
                 <ul class="nav navbar navbar-top-links navbar-right mbn">
                     <li class="dropdown"><a data-hover="dropdown" href="#" class="dropdown-toggle"><i class="fa fa-bell fa-fw"></i><span class="badge badge-green">3</span></a>
                         
@@ -75,7 +68,17 @@ include_once("mainstart.php");
                     <li class="dropdown"><a data-hover="dropdown" href="#" class="dropdown-toggle"><i class="fa fa-tasks fa-fw"></i><span class="badge badge-yellow">8</span></a>
                         
                     </li>
-                    <?php include_once("insute.php") ?>
+                    <li class="dropdown topbar-user"><a data-hover="dropdown" href="#" class="dropdown-toggle"><img src="images/avatar/48.jpg" alt="" class="img-responsive img-circle"/>&nbsp;<span class="hidden-xs">Robert John</span>&nbsp;<span class="caret"></span></a>
+                        <ul class="dropdown-menu dropdown-user pull-right">
+                            <li><a href="#"><i class="fa fa-user"></i>My Profile</a></li>
+                            <li><a href="#"><i class="fa fa-calendar"></i>My Calendar</a></li>
+                            <li><a href="#"><i class="fa fa-envelope"></i>My Inbox<span class="badge badge-danger">3</span></a></li>
+                            <li><a href="#"><i class="fa fa-tasks"></i>My Tasks<span class="badge badge-success">7</span></a></li>
+                            <li class="divider"></li>
+                            <li><a href="#"><i class="fa fa-lock"></i>Lock Screen</a></li>
+                            <li><a href="Login.html"><i class="fa fa-key"></i>Log Out</a></li>
+                        </ul>
+                    </li>
                     <li id="topbar-chat" class="hidden-xs"><a href="javascript:void(0)" data-step="4" data-intro="&lt;b&gt;Form chat&lt;/b&gt; keep you connecting with other coworker" data-position="left" class="btn-chat"><i class="fa fa-comments"></i><span class="badge badge-info">3</span></a></li>
                 </ul>
             </div>
@@ -122,13 +125,65 @@ include_once("mainstart.php");
                 <ul id="side-menu" class="nav">
                     
                      <div class="clearfix"></div>
-                    <?php include_once("sitebar2.php") ?>
+                    <li><a href="dashboard.html"><i class="fa fa-tachometer fa-fw">
+                        <div class="icon-bg bg-orange"></div>
+                    </i><span class="menu-title">Dashboard</span></a></li>
+                    <li><a href="Layout.html"><i class="fa fa-desktop fa-fw">
+                        <div class="icon-bg bg-pink"></div>
+                    </i><span class="menu-title">Layouts</span></a>
+                       
+                    </li>
+                    <li><a href="UIElements.html"><i class="fa fa-send-o fa-fw">
+                        <div class="icon-bg bg-green"></div>
+                    </i><span class="menu-title">UI Elements</span></a>
+                       
+                    </li>
+                    <li><a href="Forms.html"><i class="fa fa-edit fa-fw">
+                        <div class="icon-bg bg-violet"></div>
+                    </i><span class="menu-title">Forms</span></a>
+                      
+                    </li>
+                    <li class="active"><a href="Tables.html"><i class="fa fa-th-list fa-fw">
+                        <div class="icon-bg bg-blue"></div>
+                    </i><span class="menu-title">Tables</span></a>
+                          
+                    </li>
+                    <li><a href="DataGrid.html"><i class="fa fa-database fa-fw">
+                        <div class="icon-bg bg-red"></div>
+                    </i><span class="menu-title">Data Grids</span></a>
+                      
+                    </li>
+                    <li><a href="Pages.html"><i class="fa fa-file-o fa-fw">
+                        <div class="icon-bg bg-yellow"></div>
+                    </i><span class="menu-title">Pages</span></a>
+                       
+                    </li>
+                    <li><a href="Extras.html"><i class="fa fa-gift fa-fw">
+                        <div class="icon-bg bg-grey"></div>
+                    </i><span class="menu-title">Extras</span></a>
+                      
+                    </li>
+                    <li><a href="Dropdown.html"><i class="fa fa-sitemap fa-fw">
+                        <div class="icon-bg bg-dark"></div>
+                    </i><span class="menu-title">Multi-Level Dropdown</span></a>
+                      
+                    </li>
+                    <li><a href="Email.html"><i class="fa fa-envelope-o">
+                        <div class="icon-bg bg-primary"></div>
+                    </i><span class="menu-title">Email</span></a>
+                      
+                    </li>
+                    <li><a href="Charts.html"><i class="fa fa-bar-chart-o fa-fw">
+                        <div class="icon-bg bg-orange"></div>
+                    </i><span class="menu-title">Charts</span></a>
+                       
+                    </li>
+                    <li><a href="Animation.html"><i class="fa fa-slack fa-fw">
+                        <div class="icon-bg bg-green"></div>
+                    </i><span class="menu-title">Animations</span></a></li>
                 </ul>
             </div>
         </nav>
-          
-          
-          
           
           
             <div id="page-wrapper">
@@ -136,12 +191,12 @@ include_once("mainstart.php");
                 <div id="title-breadcrumb-option-demo" class="page-title-breadcrumb">
                     <div class="page-header pull-left">
                         <div class="page-title">
-                            404 Страница не найдена</div>
+                            Tables</div>
                     </div>
                     <ol class="breadcrumb page-breadcrumb pull-right">
-                        <li><i class="fa fa-home"></i>&nbsp;<a href="dashboard.html">Главная</a>&nbsp;&nbsp;<i class="fa fa-angle-right"></i>&nbsp;&nbsp;</li>
-                        <li class="hidden"><a href="#">Pages</a>&nbsp;&nbsp;<i class="fa fa-angle-right"></i>&nbsp;&nbsp;</li>
-                        <li class="active">Ошибка страницы</li>
+                        <li><i class="fa fa-home"></i>&nbsp;<a href="dashboard.html">Home</a>&nbsp;&nbsp;<i class="fa fa-angle-right"></i>&nbsp;&nbsp;</li>
+                        <li class="hidden"><a href="#">Tables</a>&nbsp;&nbsp;<i class="fa fa-angle-right"></i>&nbsp;&nbsp;</li>
+                        <li class="active">Tables</li>
                     </ol>
                     <div class="clearfix">
                     </div>
@@ -151,62 +206,106 @@ include_once("mainstart.php");
                 <div class="page-content">
                     <div id="tab-general">
                         <div class="row mbl">
-                        
-              <div class="col-lg-6">
-              <div class="panel">  
-              <div class="panel-body"><h4 class="block-heading">Такой страницы нет</h4>
-              <div id="nestable" class="dd">                 
-              Если у Вас возникли вопросы, свяжитесь с нашей службой безопасности, отправив электронное сообщение по адресу kupinov@mail.ru Подробнее можно узнать из нашего официального блога.                              
-              </div>
-              </div>                        
-              </div>
-              </div>                        
-                          
-          
-                        
-                        
-                        
                             <div class="col-lg-12">
-                            
-                            
-      
-                            
                                 
                                             <div class="col-md-12">
                                                 <div id="area-chart-spline" style="width: 100%; height: 300px; display: none;">
                                                 </div>
                                             </div>
-                                <img src="/images/n404.jpg" alt="ошибка страницы">
+                                
+                            </div>
+
+                            <div class="col-lg-12">
+                            <div class="row">
+                    
+                        <div class="panel panel-yellow">
+                            <div class="panel-heading">Список сайтов</div>
+                            <div class="panel-body">
+                                <table class="table table-hover">
+                                    <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>Сайт</th>
+                                        <th>Описание</th>
+                                        <th>Статус</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+
+
+<?php
+
+				$hostname = "127.0.0.1";
+			        $username = "izofen";
+			        $password = "podkjf4";
+			        $dbName   = "rusnet";
+			        mysql_connect($hostname,$username,$password) OR DIE("Не могу создать соединение ");
+			        mysql_query("SET NAMES 'utf-8'"); 
+			        mysql_query("SET NAMES 'utf8'");
+
+				$userstable = "site";
+  				mysql_select_db($dbName); 
+				$query = "SELECT * FROM $userstable WHERE 1=1 Limit 100";
+				$res = mysql_query($query) ;  
+				while ($row=mysql_fetch_array($res)) 
+  				{
+			        	
+				 echo "<tr>";
+                                        echo "<td>1</td>";
+                                        echo "<td>Henry</td>";
+                                        echo "<td>23</td>";
+                                        echo "<td><span class="label label-sm label-success">Approved</span></td>";
+                                 echo "</tr>";
+
+
+				}	
+
+?>
+
+                                   
+
+
+
+                                    <tr>
+                                        <td>2</td>
+                                        <td>John</td>
+                                        <td>45</td>
+                                        <td><span class="label label-sm label-info">Pending</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td>3</td>
+                                        <td>Larry</td>
+                                        <td>30</td>
+                                        <td><span class="label label-sm label-warning">Suspended</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td>4</td>
+                                        <td>Lahm</td>
+                                        <td>15</td>
+                                        <td><span class="label label-sm label-danger">Blocked</span></td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        
+                   
+                     </div>
+                        </div>
+                    </div>
+                </div>
+                            
+                            
+                            </div>
                             
                         </div>
-                        <BR>
-		                  	<BR> 
-                        <!--END TITLE & BREADCRUMB PAGE-->
-                <!--BEGIN CONTENT-->
-                       
-                          
-                                                  
-                        
-                         
-                        <BR>
-		                  	<BR> 
-
-
-					<?php 
-                                        // 4 блока в конце сайта 
-                                        include_once("main4blok.php");
-					?> 
-
-
-
-
                     </div>
                 </div>
                 <!--END CONTENT-->
                 <!--BEGIN FOOTER-->
                 <div id="footer">
                     <div class="copyright">
-                        <td align="center"> <a href="http://mailvirtual.ru">2014 © ООО ФИТА</a></div>
+                        <a href="http://themifycloud.com">2014 © KAdmin Responsive Multi-Purpose Template</a></div>
                 </div>
                 <!--END FOOTER-->
             </div>
