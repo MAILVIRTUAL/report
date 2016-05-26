@@ -1,18 +1,13 @@
 <?php 
    // Стандартный набор для всех страниц
-   
-   
-   session_start();
-   $comand   = $_GET ['com'];
-   if ($comand == 'out')
-   {
-   $_SESSION['Login']   = "";
-   $_SESSION['Password']= "";
-   }  
+   include_once("mainstart.php");
    
    
    
-   include_once("connect.php");
+   
+   //echo $rolereturn;
+   
+  
    $qvest   = $_GET ['qvest'];
    $tema   = $_GET  ['tema'];
    if (isset($_GET['qvest']))
@@ -102,20 +97,7 @@
 
    $otvet = "";
    $utoch = "";
-   $Obrashen = "";
-   // Вход с предудущий сесии
-   if ($_SESSION['Login'] <> '' and $_SESSION['Password'] <> '')
-   {  
-        $userstable = "user";
-        mysql_select_db($dbName); 
-        $query = "SELECT * FROM $userstable WHERE login = '".$_SESSION['Login']."' and pass = '".$_SESSION['Password']."'";
-        $res = mysql_query($query) ;  
-        while ($row=mysql_fetch_array($res)) 
-        {
-            $Obrashen = $row[FirstName]." ".$row[LastName];
-        }
-        //echo $Obrashen;
-    }    
+   
 ?> 
 
 
@@ -174,11 +156,9 @@
                 <?php include_once("logoup.php") ?>
             <div class="topbar-main"><a id="menu-toggle" href="#" class="hidden-xs"><i class="fa fa-bars"></i></a>
                 
-                                                        <form role="search" class="navbar-form navbar-left">
-                                                        <div class="form-group"><input type="text" placeholder="Search" class="form-control"/></div>
-                                                        &nbsp;
-                                                        <button type="submit" class="btn btn-green">Submit</button>
-                                                        </form>
+                <form id="topbar-search" action="" method="" class="hidden-sm hidden-xs">
+                    <div class="input-icon right text-white"><a href="#"><i class="fa fa-search"></i></a><input type="text" placeholder="Поиск..." class="form-control text-white"/></div>
+                </form>
                 <?php include_once("runstrok.php") ?>
                 
                 <ul class="nav navbar navbar-top-links navbar-right mbn">
@@ -277,7 +257,94 @@
 
 				         
 					
-					<BR>			
+					<BR>
+          
+          
+              <?php
+              // Проверка доступа к странице
+              $roleId   = $idKlienta;
+              $rolePrav = "ReadReport";
+              $rolereturn = "";
+              include_once("mainsecurity.php");
+              if ($rolereturn == "Yes") 
+              { 
+              ?>
+               
+               
+                
+          
+          			<div class="panel panel-blue" style="background:#FFF;">
+                            <div class="panel-heading">Общие вопросы сайта</div>
+                            <div class="panel-body">
+                                <table class="table table-hover table-bordered">
+                                    <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>Название</th>
+                                        <th>Степень</th>
+                                        <th>Статус</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr>
+                                        <td>1</td>
+                                        <td>Приток новых клиентов</td>
+                                        <td><?php echo ($rolereturn) ?></td>
+                                        <td><span class="label label-sm label-success">Approved</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td>2</td>
+                                        <td>Сейчас пользователей на сайте</td>
+                                        <td><?php echo ($rolereturn) ?></td>
+                                        <td><span class="label label-sm label-info">Pending</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td>3</td>
+                                        <td>------------------------</td>
+                                        <td><?php echo ($rolereturn) ?></td>
+                                        <td><span class="label label-sm label-warning">Suspended</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td>4</td>
+                                        <td>------------------------</td>
+                                        <td><?php echo ($rolereturn) ?></td>
+                                        <td><span class="label label-sm label-danger">Blocked</span></td>
+                                    </tr>
+                                 
+
+                                    </tbody>
+                                    <tfoot>
+                                    <tr>
+                                        <th>5</th>
+                                        <th><i>Итого</i></th>
+                                        <th>100</th>
+                                        <th><i>1 Approved</i></th>
+                                    </tr>
+                                    </tfoot>
+                                </table>
+                            </div>
+                        </div>
+          
+          
+                     <?php
+                     // Закрытие проверки доступа к странице 
+                     } 
+                     ?>
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          			
                     
                         <div class="panel panel-yellow">
                             <div class="panel-heading"> Пользователи сайта</div>
@@ -313,8 +380,6 @@
                                         echo '<td>'.$nomer.'</td>';
                                         echo '<td>'.$row[FirstName].' '.$row[LastName].'</td>';
                                         echo '<td>'.$row[prof].'</td>';
-                                        
-                                        
                           $error = 'NO';
                           
                           // Кусок кода  для проверки на работоспособность новых пользователей
@@ -346,10 +411,6 @@
                           echo '<td><span class="label label-sm label-danger"><a href="proffile.php?sisadmin='.$row[id].'">ОШИБКА ('.$error.')</a></span></td>';
                           }                            
                           }
-                          
-                          
-                          
-                          
                                  echo '</tr>';
 				}	
 
@@ -364,11 +425,7 @@
                         </div>
                         
                    
-                     </div>
-                        </div>
-                    </div>
-                </div>
-                            
+     
       
 
 <?php
@@ -1018,7 +1075,7 @@
 
 
 			<div class="panel panel-green">
-                            <div class="panel-heading">Объщие вопросы</div>
+                            <div class="panel-heading">Общие вопросы</div>
                             <div class="panel-body">
                                 <table class="table table-hover-color">
                                     <thead>
@@ -1058,7 +1115,12 @@
 
 
 
-			
+			  					<?php 
+                                        // 4 блока в конце сайта 
+                                        include_once("main4blok.php");
+					        ?> 
+
+
                    
 
 
